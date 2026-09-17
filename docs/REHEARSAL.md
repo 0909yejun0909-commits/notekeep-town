@@ -1,6 +1,19 @@
 # The rehearsal
 
-**Saturday 19 September.** Three hours in the morning, a debrief in the afternoon.
+Two passes. **Saturday is async and solo** — each person hands the repo to their own agent and
+watches what comes out. **Sunday midday is in person**, and it exists to rehearse the things
+that need four people in a room.
+
+| When | What | Who |
+| --- | --- | --- |
+| **Fri evening** | Pre-test Prompt 0 cold | Track A alone |
+| **Sat, any time** | Run your own track cold. Log everything. | Each person, solo |
+| **Sun 12:00–15:00** | Debrief, freeze the prompts, rehearse the merge and the demo | Everyone, in person |
+| **Sun 17:00** | Build | — |
+
+**You are not rebuilding the app on Sunday morning.** Saturday's branches are the merge input.
+You don't need to rebuild something to practise merging it, and arriving at a 5pm build having
+already done a 3-hour one is worse than arriving rested.
 
 ---
 
@@ -61,19 +74,32 @@ it's realistic, and if it isn't, the honest fix is to cut Step 6 or 7 down, not 
 
 ---
 
-## Saturday morning: the run
+## Saturday: run your own track, solo
 
-Same tracks, same prompts, same clock, same gates as Sunday. Somebody owns a timer and calls
-the times out loud.
+Whenever suits you. In an empty directory, cold session, your track prompt and nothing else.
 
-**Nobody helps anybody.** If Track C is stuck, Track C stays stuck and writes down why. You
-are testing the prompt, not the team. The instinct to jump in and help is exactly what
-invalidates the result.
+Track A goes first and pushes a foundation branch that B, C and D start from — agree a time
+for that, since everyone else is blocked until it exists.
 
-The two gates still apply:
+**Nobody helps anybody.** If you're stuck, stay stuck and write down why. You are testing the
+prompt, not the team. The instinct to jump in is exactly what invalidates the result.
 
-- **0:20** — foundation pushed, everyone branches
-- **1:20** — a character is walking on a tilemap, or Track B starts cutting
+Give it roughly the time your track gets on Sunday — about 85 minutes — and **stop when the
+time is up even if you're mid-flow.** What you're measuring is how far the prompt gets in the
+window, not whether you can finish eventually.
+
+### The four questions you're answering
+
+1. **Did it read the existing files, or reinvent them?** The most expensive failure available.
+   If Track C wrote its own movement instead of importing `GridMovement`, that's the finding
+   of the day.
+2. **Did it stay in its lane?** Check `git diff --stat` at the end. Any file outside your
+   ownership list is a problem, even a helpful-looking one.
+3. **What context did you have to supply by hand?** Everything you told it that wasn't in the
+   prompt or `CLAUDE.md`.
+4. **How far did it actually get in the time?** Be honest. This is Sunday's real budget.
+
+**Push your branch at the end**, however finished it is. Sunday's merge rehearsal needs it.
 
 ---
 
@@ -100,9 +126,24 @@ Don't wait for the debrief. Twice means it'll happen on Sunday too.
 
 ---
 
-## Saturday afternoon: the debrief
+## Sunday midday, in person
 
-**90 minutes.** Work through the log row by row and route every correction to exactly one place:
+Five hours between meeting and the 5pm start. Spend three on this and two recovering.
+
+| | | |
+| --- | --- | --- |
+| **12:00** | Debrief | What did each agent get wrong, what fixed it, where does it go |
+| **12:30** | Edit and freeze | Make the changes together on one screen. Nothing changes after this. |
+| **13:00** | Merge rehearsal | On Saturday's branches. B → C → D, one driver. |
+| **14:00** | Demo script | Write it, run it twice, time it. |
+| **14:45** | Delete and stage | Empty repo, assets, vault, Vercel project ready. |
+| **15:00** | **Stop** | Eat properly. A 5-to-8pm build on no dinner is its own failure mode. |
+
+---
+
+### 12:00 — Debrief
+
+Work through everyone's log row by row and route every correction to exactly one place:
 
 | Where | For what |
 | --- | --- |
@@ -111,33 +152,42 @@ Don't wait for the debrief. Twice means it'll happen on Sunday too.
 | **The recovery-phrase list** | Wording that reliably un-stuck an agent. Add it to the bottom of `PROMPTS.md`. |
 | **Accept it** | Cheap to correct live, not worth prompt bloat. Some things are fine to just say on the day. |
 
-Then:
-
-- **Record the real timings.** How long did each track *actually* take? That's Sunday's budget,
-  not the estimate in the run of show. If a track ran over, cut its step 4-5 now rather than
-  discovering it at 1:50 tomorrow.
-- **Rewrite the docs** and push. The versions in this repo should end Saturday matching what
-  you'll actually paste.
+Also settle the **real timings**. How far did each track actually get in 85 minutes? That's
+tonight's budget, not the estimate in the run of show. If a track fell short, cut its steps 4–5
+now rather than discovering it at 1:50 tonight.
 
 ---
 
-## Rehearse the merge
+### 12:30 — Edit and freeze
 
-**45 minutes, and do not skip this.** The merge is where parallel work goes to die, and it's
-the part nobody ever practises.
+Make every agreed change to `CLAUDE.md` and the track prompts **together, on one screen**, so
+all four of you have seen the final wording. Push.
 
-Do it for real: B, then C, then D, one person driving.
-
-- If two tracks fought over a file, **the fix is to move that file into Prompt 0** so it
-  exists before anyone branches. Don't fix it with a rule asking people to be careful.
-- If the merge took more than 25 minutes, the tracks aren't cleanly separated. Change the
-  file ownership table until they are.
+> **After this, the prompts are frozen.** If something is wrong at 6pm tonight, you correct it
+> in the chat with your agent — you do not stop to edit a file.
 
 ---
 
-## Write the demo script
+### 13:00 — Merge rehearsal
 
-**45 minutes.** Beat by beat, who talks, who drives.
+**The reason you're in a room together.** The merge is where parallel work goes to die, and
+it's the part nobody ever practises.
+
+You already have the inputs: everyone's Saturday branch. **Don't rebuild anything** — merge
+what you've got, for real. B, then C, then D, one person driving, the other three watching and
+calling things out.
+
+- If two tracks fought over a file, **the fix is to move that file into Prompt 0** so it exists
+  before anyone branches. Don't fix it with a rule asking people to be careful.
+- If it took more than 25 minutes, the tracks aren't cleanly separated. Change the file
+  ownership table in `CLAUDE.md` until they are.
+- Whatever you learn here, fold into Prompt 0 *now* — this is the last moment it can change.
+
+---
+
+### 14:00 — Demo script
+
+Beat by beat, who talks, who drives.
 
 The golden path, which is also the cut-proof core of the whole build:
 
@@ -158,24 +208,45 @@ Also rehearse the two questions you'll definitely get:
 
 ---
 
-## Then delete it
+### 14:45 — Delete it, then stage
 
-> **Delete the rehearsal repository. Create an empty one for Sunday.**
+> **Delete every rehearsal branch and repository, on every machine.** Create the empty one for
+> tonight.
 
-Sunday's commit history has to show the project was built on the day. Pre-stage only what's
-legal to bring:
+Tonight's commit history has to show the project was built at the event. Do this **while
+you're together**, so all four of you watch it happen and nobody has a stray copy.
+
+> **Decide this now, not at 16:50.** Saturday's output is diagnostic only. If it happens to
+> work well, deleting it gets psychologically *harder*, not easier — tired people with working
+> code in front of them rationalise. Agree while it's easy that it never opens tonight.
+
+Then pre-stage only what's legal to bring:
 
 - [ ] The asset zip, unzipped and ready to copy
 - [ ] The demo vault zip, unzipped
 - [ ] `docs/PROMPTS.md` open in a tab
 - [ ] `docs/ASSETS.md` filled in, ready to paste into Prompt 0
 - [ ] An empty Vercel project, linked and ready
-- [ ] The corrections log, so Sunday's recovery phrases are one search away
+- [ ] The corrections log, so tonight's recovery phrases are one search away
 
 ---
 
-## One last thing
+### 15:00 — Stop
 
-Whoever runs a track on Saturday should run **the same track on Sunday**. The muscle memory
-of having already argued with an agent about that exact file is worth more than any document
-in this repo.
+Two hours before the gun. Eat, travel, arrive early enough to find power and test the wifi.
+
+Do not keep tinkering. The prompts are frozen, and the value of another hour of fiddling is
+lower than the value of starting a three-hour evening build with energy.
+
+---
+
+## Two last things
+
+**Whoever runs a track on Saturday runs the same track tonight.** The muscle memory of having
+already argued with an agent about that exact file is worth more than any document in this repo.
+
+**What you give up with this plan** is practice at the *simultaneous* feel of four people
+building at once — Saturday is solo, so nobody rehearses the interruptions and the "is A done
+yet" coordination. That's a deliberate trade. The gates are simple enough to run cold (push at
+0:20, walkable at 1:20), and the real coordination risk is the merge, which you're rehearsing
+head-on.
