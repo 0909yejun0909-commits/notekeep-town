@@ -1,19 +1,18 @@
 # The rehearsal
 
-Two passes. **Saturday is async and solo** — each person hands the repo to their own agent and
-watches what comes out. **Sunday midday is in person**, and it exists to rehearse the things
-that need four people in a room.
+Three passes, each testing something the previous one couldn't.
 
 | When | What | Who |
 | --- | --- | --- |
-| **Fri evening** | Pre-test Prompt 0 cold | Track A alone |
-| **Sat, any time** | Run your own track cold. Log everything. | Each person, solo |
-| **Sun 12:00–15:00** | Debrief, freeze the prompts, rehearse the merge and the demo | Everyone, in person |
+| **Fri evening** | Pre-test Prompt 0 cold. Does the foundation work at all? | Track A alone |
+| **Sat, any time** | Run your own track cold. Does each prompt stand alone? | Each person, solo |
+| **Sun 10:15–13:15** | Full timed run. Does it work as a team, on the clock? | Everyone, in person |
+| **Sun 13:15–16:00** | Debrief, freeze the prompts, delete everything | Everyone |
 | **Sun 17:00** | Build | — |
 
-**You are not rebuilding the app on Sunday morning.** Saturday's branches are the merge input.
-You don't need to rebuild something to practise merging it, and arriving at a 5pm build having
-already done a 3-hour one is worse than arriving rested.
+Saturday catches prompt-level problems cheaply and alone, so Sunday's run can spend its three
+hours on what only a full team rehearsal can test: the gates, the merge, and whether three
+hours is actually enough.
 
 ---
 
@@ -126,24 +125,59 @@ Don't wait for the debrief. Twice means it'll happen on Sunday too.
 
 ---
 
-## Sunday midday, in person
+## Sunday — the full run
 
-Five hours between meeting and the 5pm start. Spend three on this and two recovering.
+Meet at 10:00. Seven hours until the gun.
 
 | | | |
 | --- | --- | --- |
-| **12:00** | Debrief | What did each agent get wrong, what fixed it, where does it go |
-| **12:30** | Edit and freeze | Make the changes together on one screen. Nothing changes after this. |
-| **13:00** | Merge rehearsal | On Saturday's branches. B → C → D, one driver. |
-| **14:00** | Demo script | Write it, run it twice, time it. |
-| **14:45** | Delete and stage | Empty repo, assets, vault, Vercel project ready. |
-| **15:00** | **Stop** | Eat properly. A 5-to-8pm build on no dinner is its own failure mode. |
+| **10:00** | Set up | Empty directories, cold sessions, assets staged, timer nominated |
+| **10:15** | **GUN** | Full timed run with real gates. Treat it as the real thing. |
+| **13:15** | **Hard stop** | Whatever state it's in. The debrief is worth more than another 20 minutes of building. |
+| **13:15** | Lunch + debrief | Eat *and* talk. Findings are freshest now. |
+| **14:15** | Edit and freeze | Prompt changes together on one screen. Nothing changes after this. |
+| **15:00** | Demo script | Write it, run it twice, time it. |
+| **15:30** | Delete and stage | Everything, on every machine, while all four of you watch. |
+| **15:45** | **Rest** | Genuinely rest. No tinkering. |
+| **16:30** | Travel | Arrive early, find power, test the wifi. |
+| **17:00** | Build | — |
+
+### The run itself, 10:15–13:15
+
+Real gates, real clock, same as tonight. Somebody owns the timer and calls the times out loud.
+
+| Clock | Gun time | |
+| --- | --- | --- |
+| 10:15 | 0:00 | A starts Prompt 0. B/C/D stage assets, confirm the picker. |
+| 10:35 | 0:20 | **Gate** — foundation pushed, everyone branches |
+| 11:35 | 1:20 | **Gate** — a character is walking, or B starts cutting |
+| 12:05 | 1:50 | Freeze and push |
+| 12:30 | 2:15 | Merge, B → C → D |
+| 12:55 | 2:40 | Smoke test the golden path |
+
+**You can stop at 12:55.** The last twenty minutes tonight are demo rehearsal, which isn't
+time-pressured — do it in the afternoon block instead and save the morning energy for the parts
+that only break under a clock.
+
+**Nobody helps anybody during the run.** If Track C is stuck, Track C stays stuck and writes
+down why. You are testing the prompts, not the team, and the instinct to jump in is exactly
+what invalidates the result. Help is what the afternoon is for.
+
+> ### Hard stop at 13:15 means hard stop
+>
+> The run will feel *so close* to working at 13:10. It always does. Stop anyway — the value of
+> this morning is the debrief, and a rehearsal you never fold learnings back into was just an
+> expensive way to get tired.
 
 ---
 
-### 12:00 — Debrief
+### 13:15 — Lunch and debrief
 
-Work through everyone's log row by row and route every correction to exactly one place:
+Eat and talk at the same time. Everything is freshest right now, and you have a three-hour
+build this evening — a morning rehearsal plus no lunch is how the 7pm slump arrives early.
+
+Work through everyone's log, Saturday's and this morning's, and route every correction to
+exactly one place:
 
 | Where | For what |
 | --- | --- |
@@ -158,34 +192,28 @@ now rather than discovering it at 1:50 tonight.
 
 ---
 
-### 12:30 — Edit and freeze
+### 14:15 — Edit and freeze
 
 Make every agreed change to `CLAUDE.md` and the track prompts **together, on one screen**, so
 all four of you have seen the final wording. Push.
+
+**Give the merge its own pass.** It's the part nobody ever practises, and this morning was
+probably the first time you've done it. Specifically:
+
+- If two tracks fought over a file, **move that file into Prompt 0** so it exists before anyone
+  branches. Don't fix it with a rule asking people to be careful — that rule will be ignored at
+  7pm.
+- If the merge took more than 25 minutes, the tracks aren't cleanly separated. Change the file
+  ownership table in `CLAUDE.md` until they are.
+- If a track's work didn't fit the world model, that's a type-contract bug. Fix the contract in
+  Prompt 0, not the track that tripped on it.
 
 > **After this, the prompts are frozen.** If something is wrong at 6pm tonight, you correct it
 > in the chat with your agent — you do not stop to edit a file.
 
 ---
 
-### 13:00 — Merge rehearsal
-
-**The reason you're in a room together.** The merge is where parallel work goes to die, and
-it's the part nobody ever practises.
-
-You already have the inputs: everyone's Saturday branch. **Don't rebuild anything** — merge
-what you've got, for real. B, then C, then D, one person driving, the other three watching and
-calling things out.
-
-- If two tracks fought over a file, **the fix is to move that file into Prompt 0** so it exists
-  before anyone branches. Don't fix it with a rule asking people to be careful.
-- If it took more than 25 minutes, the tracks aren't cleanly separated. Change the file
-  ownership table in `CLAUDE.md` until they are.
-- Whatever you learn here, fold into Prompt 0 *now* — this is the last moment it can change.
-
----
-
-### 14:00 — Demo script
+### 15:00 — Demo script
 
 Beat by beat, who talks, who drives.
 
@@ -208,7 +236,7 @@ Also rehearse the two questions you'll definitely get:
 
 ---
 
-### 14:45 — Delete it, then stage
+### 15:30 — Delete it, then stage
 
 > **Delete every rehearsal branch and repository, on every machine.** Create the empty one for
 > tonight.
@@ -231,7 +259,7 @@ Then pre-stage only what's legal to bring:
 
 ---
 
-### 15:00 — Stop
+### 15:45 — Stop
 
 Two hours before the gun. Eat, travel, arrive early enough to find power and test the wifi.
 
@@ -242,11 +270,12 @@ lower than the value of starting a three-hour evening build with energy.
 
 ## Two last things
 
-**Whoever runs a track on Saturday runs the same track tonight.** The muscle memory of having
-already argued with an agent about that exact file is worth more than any document in this repo.
+**Same person, same track, all three passes.** Whoever runs Track B on Saturday runs it in the
+morning and runs it tonight. The muscle memory of having already argued with an agent about
+that exact file is worth more than any document in this repo.
 
-**What you give up with this plan** is practice at the *simultaneous* feel of four people
-building at once — Saturday is solo, so nobody rehearses the interruptions and the "is A done
-yet" coordination. That's a deliberate trade. The gates are simple enough to run cold (push at
-0:20, walkable at 1:20), and the real coordination risk is the merge, which you're rehearsing
-head-on.
+**Watch the energy, not just the clock.** You're doing two three-hour builds in one day, and
+the second one is the one that counts. That's what the 15:45 stop is protecting — it is not
+padding, and the temptation to spend it on "just one more fix" is exactly the thing that makes
+you flat at 19:00. The morning run is practice. Treat the afternoon like the warm-up before a
+match, not extra training.
