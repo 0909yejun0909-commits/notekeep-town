@@ -63,8 +63,8 @@ No auth. No backend, except one small API route for NPC dialogue.
 
 | Day | What happens | Where |
 | --- | --- | --- |
-| **Friday 18** | Buy art, write the asset manifest, ratify the type contract, build the demo vault | [`docs/SETUP.md`](docs/SETUP.md) |
-| **Saturday 19** | Full timed dress rehearsal, then refine the prompts and **delete everything** | [Run of show](https://claude.ai/artifact/MLycCDD6BJNFkoCyaH1HFH) |
+| **Friday 18** | Buy art, write the asset manifest, ratify the type contract, build the demo vault. **Then pre-test Prompt 0.** | [`docs/SETUP.md`](docs/SETUP.md) |
+| **Saturday 19** | Full timed dress rehearsal with cold sessions, then refine the prompts and **delete everything** | [`docs/REHEARSAL.md`](docs/REHEARSAL.md) |
 | **Sunday 20** | Build it live in three hours | [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 
 📋 **[The full run of show is here](https://claude.ai/artifact/MLycCDD6BJNFkoCyaH1HFH)** — minute-by-minute
@@ -89,14 +89,31 @@ Put your name in that table on Friday.
 
 ---
 
+## How the prompts work
+
+Your agent starts Sunday with **no context at all** — it hasn't read this repo or sat through
+any of the planning. So the context doesn't live in the prompts. It lives in the repo:
+
+**Prompt 0's first job is to write `CLAUDE.md` into the new repository.** Every session opened
+in that repo afterwards auto-loads it — the locked stack, the type contract, file ownership,
+and the rules for working as one of four parallel agents. Tracks B, C and D then paste only
+their own short track prompt.
+
+That's why you must not open a session in Sunday's repo before 0:20. There's nothing to
+load yet.
+
+---
+
 ## Before you do anything else
 
 1. Read [`docs/SETUP.md`](docs/SETUP.md) and get your machine ready. **Do this before Saturday**,
    not on Sunday morning.
 2. Read your own track's prompt in [`docs/PROMPTS.md`](docs/PROMPTS.md), end to end.
-3. Read the shared context block at the top of that file. It's the contract that makes four
-   people's code fit together. If you disagree with anything in it, say so **Friday** — it
-   freezes after that.
+3. Read the `CLAUDE.md` block inside Prompt 0. It's the contract that makes four people's code
+   fit together. If you disagree with anything in it, say so **Friday** — it freezes after
+   Saturday's rehearsal.
+4. Read [`docs/REHEARSAL.md`](docs/REHEARSAL.md) before Saturday, especially the cold-sessions
+   rule. Rehearsing in a session that already knows the plan tests nothing.
 
 ---
 
