@@ -83,9 +83,11 @@ for that, since everyone else is blocked until it exists.
 **Nobody helps anybody.** If you're stuck, stay stuck and write down why. You are testing the
 prompt, not the team. The instinct to jump in is exactly what invalidates the result.
 
-Give it roughly the time your track gets on Sunday — about 85 minutes — and **stop when the
-time is up even if you're mid-flow.** What you're measuring is how far the prompt gets in the
-window, not whether you can finish eventually.
+**No clock on this pass.** This is the first rehearsal — let it run until each prompt either
+finishes or genuinely stalls, so you find every gap, not just the ones that surface in 85
+minutes. Sunday's real timing pressure gets tested on the clock on Sunday morning; Saturday's
+job is coverage, not speed. Still write down how long things actually took — it's useful input
+for the debrief even though it isn't the constraint.
 
 ### The four questions you're answering
 
@@ -96,7 +98,8 @@ window, not whether you can finish eventually.
    ownership list is a problem, even a helpful-looking one.
 3. **What context did you have to supply by hand?** Everything you told it that wasn't in the
    prompt or `CLAUDE.md`.
-4. **How far did it actually get in the time?** Be honest. This is Sunday's real budget.
+4. **How far did it get, and how long did it actually take?** No clock today, but log the real
+   time — Sunday's 85-minute budget should come from this number, not a guess.
 
 **Push your branch at the end**, however finished it is. Sunday's merge rehearsal needs it.
 
