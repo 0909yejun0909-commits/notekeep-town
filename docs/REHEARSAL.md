@@ -63,7 +63,7 @@ So the night before, in an empty directory, run Prompt 0 cold and check:
 - [ ] A Phaser canvas mounts with no console errors
 - [ ] `npx tsc --noEmit` passes
 - [ ] All four scenes exist and are registered in `game/config.ts`
-- [ ] All seven stub files from Step 7 exist
+- [ ] All six stub files from Step 7 exist
 - [ ] `game/gridMovement.ts` is real, not a stub
 
 Fix Prompt 0 until that checklist passes in one shot. Then delete the directory.
