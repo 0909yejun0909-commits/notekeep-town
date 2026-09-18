@@ -27,7 +27,7 @@ That's the whole design. The context lives in the repo, not in four people's cli
 | 0:25 | Track A | [Vault parser](#track-a--vault-parser) |
 | 0:25 | Track B | [Overworld](#track-b--overworld) |
 | 0:25 | Track C | [Interiors & note reader](#track-c--interiors--note-reader) |
-| 0:25 | Track D | [Character, NPCs & ship](#track-d--character-npcs--ship) |
+| 0:25 | Track D | [Character, NPCs & the demo machine](#track-d--character-npcs--the-demo-machine) |
 
 While A runs Prompt 0, B/C/D unzip assets, confirm the directory picker works, and get their
 prompt ready. **Don't open a session in the repo before 0:20** — there's nothing to load yet.
@@ -376,7 +376,7 @@ real vault note with its images rendering. Push to track-c.
 
 ---
 
-## Track D — Character, NPCs & ship
+## Track D — Character, NPCs & the demo machine
 
 ```text
 Read CLAUDE.md and docs/ASSETS.md first. You are Track D.
@@ -385,13 +385,15 @@ Fill in components/CharacterCreator.tsx, game/npc.ts, game/scenes/TitleScene.ts
 and app/api/npc/route.ts. Do not touch OverworldScene, InteriorScene, NoteReader
 or lib/.
 
-You also own shipping, so do step 1 before anything else and redeploy after
-every merge.
+You also own the demo working on the day, so do step 1 before anything else and
+re-check it after every merge.
 
-1. DEPLOY IMMEDIATELY. Get main onto Vercel in the first ten minutes, before it
-   does anything interesting. A broken deploy found at 2:50 ends the demo. Then
-   bundle the demo vault as static JSON in /public so there is a "Try the demo
-   town" path that works even if the directory picker fails on the demo machine.
+1. THE DEMO MACHINE FIRST. We present by screen-sharing one laptop running it
+   locally — there is no deploy. In the first ten minutes, confirm `npm run dev`
+   serves main on that laptop with no console errors, and re-confirm after every
+   merge. A build that only works on someone else's machine, found at 2:50, ends
+   the demo. Then bundle the demo vault as static JSON in /public so there is a
+   "Try the demo town" path that works even if the directory picker fails.
 
 2. Character customiser — layered sprites. Base sheet plus hair, clothes and
    accessory layers in the same frame order, composited in a Phaser container so
@@ -417,8 +419,8 @@ every merge.
 CUT ORDER IF LATE: drop 5, then 2. Keep 1 and 3-4 — the NPC line is the cheapest
 "wow" in the build.
 
-DONE WHEN: the deployed URL works, your customised character walks around, and
-an NPC says something recognisably about your own notes. Push to track-d.
+DONE WHEN: main runs on the demo laptop, your customised character walks around,
+and an NPC says something recognisably about your own notes. Push to track-d.
 ```
 
 ---

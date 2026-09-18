@@ -103,8 +103,10 @@ Only **Track D** needs this, for NPC dialogue:
 AI_GATEWAY_API_KEY=...
 ```
 
-Track D: have this ready before Sunday. Everyone else needs nothing — there's no database, no
-auth, no Supabase, no `.env` file at all.
+Track D: have this ready before Sunday, and remember it has to land in `.env.local` on the
+**demo laptop** — we present by screen-sharing one machine running it locally, so there's no
+deploy to hold the key for us. Everyone else needs nothing — there's no database, no auth, no
+Supabase, no `.env` file at all.
 
 ---
 

@@ -257,7 +257,7 @@ Then pre-stage only what's legal to bring:
 - [ ] The demo vault zip, unzipped
 - [ ] `docs/PROMPTS.md` open in a tab
 - [ ] `docs/ASSETS.md` filled in, ready to paste into Prompt 0
-- [ ] An empty Vercel project, linked and ready
+- [ ] The demo laptop nominated, charged, and confirmed to run `npm run dev`
 - [ ] The corrections log, so tonight's recovery phrases are one search away
 
 ---

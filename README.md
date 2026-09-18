@@ -81,7 +81,7 @@ Split so no two people ever edit the same file.
 | **A** | *TBD* | Foundation, shared types, vault parser | `lib/types.ts`, `lib/vault/*`, `game/gridMovement.ts` |
 | **B** | *TBD* | Overworld, walking, tilemaps, biomes | `game/scenes/OverworldScene.ts`, `game/tilemap.ts` |
 | **C** | *TBD* | House interiors + the note reader | `game/scenes/InteriorScene.ts`, `components/NoteReader.tsx` |
-| **D** | *TBD* | Character, NPCs, UI, deploy | `components/CharacterCreator.tsx`, `game/npc.ts`, `app/api/npc/route.ts` |
+| **D** | *TBD* | Character, NPCs, UI, demo machine | `components/CharacterCreator.tsx`, `game/npc.ts`, `app/api/npc/route.ts` |
 
 **Track A is the critical path.** Everyone is blocked until A pushes the foundation at 0:20.
 
