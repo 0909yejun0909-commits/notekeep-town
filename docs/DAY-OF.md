@@ -43,7 +43,10 @@ While it runs, watch for three things and interrupt for nothing else:
 
 ---
 
-## ~0:15 — when Prompt 0 says it's done
+## ~0:08 — when Prompt 0 says it's done
+
+Friday's pretest measured the agent's actual work at about four minutes. The rest of this
+budget is the manual steps below, which don't get faster on a shorter clock.
 
 ```bash
 cd ~/notekeep-town
@@ -66,7 +69,7 @@ committed even to a private repo.
 
 ---
 
-## 0:20 — the gate
+## 0:12 — the gate
 
 ```bash
 git add -A && git commit -m "foundation" && git push -u origin main
@@ -77,27 +80,35 @@ Out loud: **"Main is pushed. Pull, branch, open a fresh session in the repo, pas
 prompt."**
 
 Nobody starts before that sentence. A session opened at 0:05 has no `CLAUDE.md` in context and
-stays that way for three hours.
+stays that way for the whole ninety minutes.
 
 ---
 
-## 0:25 — your second job
+## 0:14 — your second job
 
 A **new** session in the repo — not a continuation of the Prompt 0 conversation. Paste the
 **Track A — Vault parser** prompt, nothing else.
 
-From here you commit every fifteen minutes and stay out of everyone else's files.
+From here you commit every ten minutes and stay out of everyone else's files.
 
 ---
 
 ## The times you call out loud
 
+The build is **ninety minutes**, not three hours. Every gate below is roughly half where it
+used to be, and the parallel build window — gate to freeze — is only **53 minutes**.
+
 | Gun time | Call |
 | --- | --- |
-| **1:20** | Is a character walking? If B isn't there, B starts cutting — steps 2, 4, 5 go. |
-| **1:50** | Freeze and push. Everyone, whatever state it's in. |
-| **2:15** | Merge, B → C → D. You drive it. |
-| **2:40** | Golden path on the demo laptop, start to finish, out loud. |
+| **0:40** | Is a character walking? If B isn't there, B starts cutting — steps 2, 4, 5 go. |
+| **1:05** | Freeze and push. Everyone, whatever state it's in. |
+| **1:18** | Merge done, B → C → D. You drive it. |
+| **1:25** | Golden path on the demo laptop, start to finish, out loud. |
+
+Two things this compression changes. The 0:40 call now leaves only 25 minutes to act on it, so
+it is a real decision point, not a warning — if B isn't walking, B cuts immediately. And the
+merge gets 13 minutes instead of 25, which only works if the tracks are cleanly separated. If
+Sunday morning's merge runs long, fix the file ownership table before the freeze, not the merge.
 
 ---
 

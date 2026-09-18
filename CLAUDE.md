@@ -6,9 +6,10 @@ Read `README.md` before acting on anything in this repo. The short version:
 
 ## This repo is preparation only
 
-We are preparing for a 3-hour build event on **Sunday 20 September 2026**, where the project
-must be built live from an empty repository. Event rule: prompts may be prepared in advance,
-finished or unfinished code may not be brought on-site.
+We are preparing for a build event on **Sunday 20 September 2026**, where the project must be
+built live from an empty repository. The event runs 17:00–20:00 but **only 90 minutes of that
+is building**. Event rule: prompts may be prepared in advance, finished or unfinished code may
+not be brought on-site.
 
 **Do not build the application in this repo.** If someone asks you to implement a feature of
 Notekeep Town here, stop and tell them it belongs in Sunday's fresh repo. What belongs here
@@ -51,5 +52,5 @@ do not silently add or rename a field.
 - Phaser scenes in `game/scenes/`. Shared game helpers in `game/`. React UI in `components/`.
 - All user-facing UI is React overlaid on the canvas. Never build UI inside Phaser.
 - No README files, no tests, no explanatory comments, no documentation unless asked. The
-  build window is three hours.
+  build window is ninety minutes.
 - Never edit a file that belongs to another track. Tracks and file ownership are in `README.md`.

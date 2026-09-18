@@ -8,8 +8,8 @@ This file gets pasted at the end of the shared context block in every Sunday pro
 
 **Why it matters more than it looks like it should:** four Fable sessions will each write code
 that slices the same spritesheets. If they each guess a different frame layout, the characters
-walk sideways, furniture renders as fence posts, and you lose an hour at 1:40 to something
-nobody can debug under pressure. Every number in here is a bug that can't happen.
+walk sideways, furniture renders as fence posts, and you lose half your remaining build at 0:50
+to something nobody can debug under pressure. Every number in here is a bug that can't happen.
 
 **Rule for Sunday: never let Fable guess a frame index. If a number isn't in this file, stop
 and add it.**
@@ -28,7 +28,7 @@ Credit "Kenmi — kenmi-art.itch.io" in the project report.
 
 ## Getting the art into Sunday's repo
 
-**Track A runs this by hand at ~0:15, after Prompt 0 finishes and before pushing `main`.** No
+**Track A runs this by hand at ~0:08, after Prompt 0 finishes and before pushing `main`.** No
 agent knows about it. It lives as a runnable file at [`scripts/install-assets.sh`](../scripts/install-assets.sh)
 — don't copy it out of this markdown on the day, just run it with the destination as its one
 argument:

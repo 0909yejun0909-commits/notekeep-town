@@ -3,7 +3,11 @@
 Point the app at your real Obsidian vault and your folders become a walkable pixel town.
 Regions, houses, rooms — and every note is a piece of furniture you walk up to and read.
 
-**Build Day is Sunday 20 September 2026. Four people, three hours, four parallel Fable sessions.**
+**Build Day is Sunday 20 September 2026. Four people, four parallel Fable sessions.**
+
+The event runs 17:00–20:00, but **only 90 minutes of that is building** — the rest is setup,
+presentation and judging. Every gate in these docs is built around a 90-minute clock with a
+53-minute parallel window. Each participant gets $100 of Fable API credit on the day.
 
 ---
 
@@ -64,8 +68,8 @@ No auth. No backend, except one small API route for NPC dialogue.
 | Day | What happens | Where |
 | --- | --- | --- |
 | **Friday 18** | Buy art, write the asset manifest, ratify the type contract. Demo vault already built (`demo-vault/`). **Then pre-test Prompt 0.** | [`docs/SETUP.md`](docs/SETUP.md) |
-| **Saturday 19** | Full timed dress rehearsal with cold sessions, then refine the prompts and **delete everything** | [`docs/REHEARSAL.md`](docs/REHEARSAL.md) |
-| **Sunday 20** | Build it live in three hours | [`docs/PROMPTS.md`](docs/PROMPTS.md) |
+| **Saturday 19** | Run your own track solo and cold, no clock. Log every gap. | [`docs/REHEARSAL.md`](docs/REHEARSAL.md) |
+| **Sunday 20** | One timed rehearsal run in the morning, then build it live in 90 minutes | [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 
 **Track A also has [`docs/DAY-OF.md`](docs/DAY-OF.md)** — the minute-by-minute script for the
 person who runs the repo, the gates and the clock. The other three tracks don't need it.
@@ -86,7 +90,7 @@ Split so no two people ever edit the same file.
 | **C** | *TBD* | House interiors + the note reader | `game/scenes/InteriorScene.ts`, `components/NoteReader.tsx` |
 | **D** | *TBD* | Character, NPCs, UI, demo machine | `components/CharacterCreator.tsx`, `game/npc.ts`, `app/api/npc/route.ts` |
 
-**Track A is the critical path.** Everyone is blocked until A pushes the foundation at 0:20.
+**Track A is the critical path.** Everyone is blocked until A pushes the foundation at 0:12.
 
 Put your name in that table on Friday.
 
@@ -102,7 +106,7 @@ in that repo afterwards auto-loads it — the locked stack, the type contract, f
 and the rules for working as one of four parallel agents. Tracks B, C and D then paste only
 their own short track prompt.
 
-That's why you must not open a session in Sunday's repo before 0:20. There's nothing to
+That's why you must not open a session in Sunday's repo before 0:12. There's nothing to
 load yet.
 
 ---
@@ -113,8 +117,8 @@ load yet.
    not on Sunday morning.
 2. Read your own track's prompt in [`docs/PROMPTS.md`](docs/PROMPTS.md), end to end.
 3. Read the `CLAUDE.md` block inside Prompt 0. It's the contract that makes four people's code
-   fit together. If you disagree with anything in it, say so **Friday** — it freezes after
-   Saturday's rehearsal.
+   fit together. If you disagree with anything in it, say so **Friday** — it freezes at 13:00
+   on Sunday, after the morning's rehearsal runs.
 4. Read [`docs/REHEARSAL.md`](docs/REHEARSAL.md) before Saturday, especially the cold-sessions
    rule. Rehearsing in a session that already knows the plan tests nothing.
 
@@ -123,7 +127,7 @@ load yet.
 ## Two things that will bite you
 
 **Phaser 4 breaks everything.** `npm install phaser` installs v4, which breaks every v3 scene
-API we use. It must be `phaser@^3.90.0`. This is in the prompts, but check it at 0:20 anyway.
+API we use. It must be `phaser@^3.90.0`. This is in the prompts, but check it at 0:12 anyway.
 
 **The art licence forbids redistribution.** Kenmi's premium licence allows commercial use and
 modification but not redistribution, even modified. So keep Sunday's repo **private**, or

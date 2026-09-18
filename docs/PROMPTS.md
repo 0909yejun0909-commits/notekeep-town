@@ -20,17 +20,19 @@ That's the whole design. The context lives in the repo, not in four people's cli
 
 ## Order of operations
 
+**The build is 90 minutes.** Gate at 0:12, freeze at 1:05 — a 53-minute parallel window.
+
 | Time | Who | Paste |
 | --- | --- | --- |
 | 0:00 | Track A **alone** | [Prompt 0](#prompt-0--foundation) (includes the CLAUDE.md content + the asset manifest) |
-| 0:20 | — | A pushes `main`. Everyone pulls, branches, and **opens a fresh session in the repo**. |
-| 0:25 | Track A | [Vault parser](#track-a--vault-parser) |
-| 0:25 | Track B | [Overworld](#track-b--overworld) |
-| 0:25 | Track C | [Interiors & note reader](#track-c--interiors--note-reader) |
-| 0:25 | Track D | [Character, NPCs & the demo machine](#track-d--character-npcs--the-demo-machine) |
+| 0:12 | — | A pushes `main`. Everyone pulls, branches, and **opens a fresh session in the repo**. |
+| 0:14 | Track A | [Vault parser](#track-a--vault-parser) |
+| 0:14 | Track B | [Overworld](#track-b--overworld) |
+| 0:14 | Track C | [Interiors & note reader](#track-c--interiors--note-reader) |
+| 0:14 | Track D | [Character, NPCs & the demo machine](#track-d--character-npcs--the-demo-machine) |
 
 While A runs Prompt 0, B/C/D unzip assets, confirm the directory picker works, and get their
-prompt ready. **Don't open a session in the repo before 0:20** — there's nothing to load yet.
+prompt ready. **Don't open a session in the repo before 0:12** — there's nothing to load yet.
 
 ---
 
@@ -40,8 +42,9 @@ prompt ready. **Don't open a session in the repo before 0:20** — there's nothi
 [`ASSETS.md`](ASSETS.md) where the prompt says to.
 
 ```text
-You are bootstrapping a 3-hour, 4-person parallel build. Three other people are
-blocked until this is pushed. Build exactly what is listed and nothing more.
+You are bootstrapping a 90-minute, 4-person parallel build. Three other people are
+blocked until this is pushed, and they lose a minute for every minute you take.
+Build exactly what is listed and nothing more.
 
 STEP 1 — FIRST, before any code, write this file to the repo root as CLAUDE.md,
 verbatim, then append the asset manifest I paste at the end of this message under
@@ -52,7 +55,7 @@ a "## Asset manifest" heading:
 
 A Stardew/Pokemon-style pixel overworld generated from the user's real Obsidian
 vault. Folders become regions, houses and rooms. Notes become furniture you walk
-up to and open. Built live in 3 hours by four agents working in parallel.
+up to and open. Built live in 90 minutes by four agents working in parallel.
 
 ## Locked stack — never substitute
 
@@ -164,12 +167,12 @@ survive a reload.
 4. IF SOMETHING YOU NEED DOES NOT EXIST YET, STUB IT LOCALLY AND MOVE ON. Do not
    build it properly — another agent owns it and is building it right now.
 
-5. COMMIT EVERY 15 MINUTES with a one-line message. Small diffs merge; large
+5. COMMIT EVERY 10 MINUTES with a one-line message. Small diffs merge; large
    ones fight.
 
 6. NO SCOPE CREEP. No tests, no README, no documentation, no comments explaining
    what code does, no error handling for cases that cannot happen, no
-   abstractions for a second use case that does not exist. Three hours.
+   abstractions for a second use case that does not exist. Ninety minutes.
 
 7. WHEN BLOCKED, STOP AND SAY SO. Never silently invent an alternative
    architecture.
@@ -389,9 +392,9 @@ You also own the demo working on the day, so do step 1 before anything else and
 re-check it after every merge.
 
 1. THE DEMO MACHINE FIRST. We present by screen-sharing one laptop running it
-   locally — there is no deploy. In the first ten minutes, confirm `npm run dev`
+   locally — there is no deploy. In the first five minutes, confirm `npm run dev`
    serves main on that laptop with no console errors, and re-confirm after every
-   merge. A build that only works on someone else's machine, found at 2:50, ends
+   merge. A build that only works on someone else's machine, found at 1:25, ends
    the demo. Then bundle the demo vault as static JSON in /public so there is a
    "Try the demo town" path that works even if the directory picker fails.
 
