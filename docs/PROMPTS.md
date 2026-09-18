@@ -139,7 +139,7 @@ survive a reload.
 ## File ownership — four agents are working in this repo right now
 
   Track A  lib/types.ts, lib/vault/*, game/gridMovement.ts, app/*
-  Track B  game/scenes/OverworldScene.ts, game/tilemap.ts, game/paletteSwap.ts
+  Track B  game/scenes/OverworldScene.ts, game/tilemap.ts
   Track C  game/scenes/InteriorScene.ts, components/NoteReader.tsx
   Track D  components/CharacterCreator.tsx, game/npc.ts,
            game/scenes/TitleScene.ts, app/api/npc/route.ts
@@ -215,7 +215,7 @@ overworld and interior scenes will import:
 Export it as a class constructed with a sprite and a collision function.
 
 STEP 7 — Create stub files so no other track ever has to create them:
-  game/tilemap.ts, game/paletteSwap.ts, game/npc.ts,
+  game/tilemap.ts, game/npc.ts,
   components/NoteReader.tsx, components/CharacterCreator.tsx,
   lib/vault/parse.ts, lib/vault/open.ts
 Each exports one function with the correct signature and a TODO body.
@@ -282,9 +282,9 @@ nested structure, with positions identical across two reloads. Push to main.
 ```text
 Read CLAUDE.md and docs/ASSETS.md first. You are Track B.
 
-Fill in game/scenes/OverworldScene.ts, game/tilemap.ts and game/paletteSwap.ts.
-They already exist as stubs. game/gridMovement.ts already exists too — read it
-and use it. Do not write your own movement code.
+Fill in game/scenes/OverworldScene.ts and game/tilemap.ts. They already exist
+as stubs. game/gridMovement.ts already exists too — read it and use it. Do not
+write your own movement code.
 
 Build in this order, committing after each step. Step 1 is the demo; steps 4-5
 are expendable.
@@ -304,10 +304,11 @@ are expendable.
    this.events.emit('enter-house', house.id) — another track handles what happens
    next, you just emit it.
 
-4. Palette swap shader — the biome system. A Phaser pipeline that remaps specific
-   source colours to target colours at render time, so all five biomes come from
-   one terrain PNG. Palettes go in game/paletteSwap.ts as hex arrays, taken from
-   the manifest. Biome comes from region.biome.
+4. Biomes — load the five hand-drawn terrain tilesets (one per BiomeId: meadow,
+   forest, desert, volcano, snow) per the per-biome descriptor in docs/ASSETS.md
+   and pick one by region.biome. Each sheet has its own size and edge-index
+   origin, so use a small per-biome descriptor rather than one shared index
+   table. No shader — just five images.
 
 5. Season overlay: a tint plus a particle layer (snow, leaves, rain, fireflies).
    Cheap, and reads instantly on a projector.

@@ -75,14 +75,16 @@ Don't commit the art to anything public.
 
 ## 5. The demo vault
 
-Built Friday. It's a real Obsidian vault, 3–4 top-level folders, 2–3 subfolders each, 4–8
-notes per folder, several with embedded images.
+Already built — it's `demo-vault/` in this repo (also zipped as `demo-vault.zip`), a real
+Obsidian-shaped vault: 3 regions, 2 houses each, 2 rooms each, 35 notes total. It travels to
+Sunday's repo (see the README) as `demo-vault.zip`.
 
-Get the zip on your machine and **unzip it** — you'll point the app at it constantly during
-Saturday's rehearsal.
+Unzip it somewhere you can find fast — you'll point the app at it constantly during
+Saturday's rehearsal, and it's the fallback when your own vault isn't handy for a demo.
 
-Folder names become place names in the game, so they're chosen to look good on a projector,
-not to be realistic.
+Folder names became place names in the game (Riverside Hollow, Ember Hollow, Frostpeak
+Reach), so they're chosen to look good on a projector, not to be realistic. No embedded
+images — keeping it plain text keeps the vault parser simple to test against.
 
 ---
 

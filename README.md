@@ -22,7 +22,7 @@ Regions, houses, rooms — and every note is a piece of furniture you walk up to
 >
 > 1. The **prompts** (`docs/PROMPTS.md`)
 > 2. The **asset manifest** (`docs/ASSETS.md`)
-> 3. The **demo vault** (a zip, built Friday)
+> 3. The **demo vault** (`demo-vault/`, zipped as `demo-vault.zip`)
 >
 > Nothing else. Not the scaffold, not a single file of code.
 
@@ -63,7 +63,7 @@ No auth. No backend, except one small API route for NPC dialogue.
 
 | Day | What happens | Where |
 | --- | --- | --- |
-| **Friday 18** | Buy art, write the asset manifest, ratify the type contract, build the demo vault. **Then pre-test Prompt 0.** | [`docs/SETUP.md`](docs/SETUP.md) |
+| **Friday 18** | Buy art, write the asset manifest, ratify the type contract. Demo vault already built (`demo-vault/`). **Then pre-test Prompt 0.** | [`docs/SETUP.md`](docs/SETUP.md) |
 | **Saturday 19** | Full timed dress rehearsal with cold sessions, then refine the prompts and **delete everything** | [`docs/REHEARSAL.md`](docs/REHEARSAL.md) |
 | **Sunday 20** | Build it live in three hours | [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 
@@ -79,7 +79,7 @@ Split so no two people ever edit the same file.
 | Track | Owner | What you build | Your files |
 | --- | --- | --- | --- |
 | **A** | *TBD* | Foundation, shared types, vault parser | `lib/types.ts`, `lib/vault/*`, `game/gridMovement.ts` |
-| **B** | *TBD* | Overworld, walking, tilemaps, biomes | `game/scenes/OverworldScene.ts`, `game/tilemap.ts`, `game/paletteSwap.ts` |
+| **B** | *TBD* | Overworld, walking, tilemaps, biomes | `game/scenes/OverworldScene.ts`, `game/tilemap.ts` |
 | **C** | *TBD* | House interiors + the note reader | `game/scenes/InteriorScene.ts`, `components/NoteReader.tsx` |
 | **D** | *TBD* | Character, NPCs, UI, deploy | `components/CharacterCreator.tsx`, `game/npc.ts`, `app/api/npc/route.ts` |
 

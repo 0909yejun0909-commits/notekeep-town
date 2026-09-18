@@ -365,14 +365,14 @@ Pulled straight from the PNGs, so these match the art exactly.
 
 ---
 
-## OPEN — one decision for the team
+## DECIDED — no palette-swap shader
 
 `BiomeId` is `meadow | forest | desert | volcano | snow`, and there is a real, hand-drawn
-tileset for every one of them (rows above). The palette-swap shader in Track B
-(`game/paletteSwap.ts`) was there to fake biomes from one tileset — it is no longer needed,
-and shipping five images is both faster and better looking than a shader.
+tileset for every one of them (rows above). Five images beats a shader — faster to build and
+better looking. `game/paletteSwap.ts` is cut; it's out of the file-ownership table in
+`PROMPTS.md` and Track B gets that time back.
 
-Suggested mapping:
+Per-biome mapping — Track B's `game/tilemap.ts` picks one of these by `region.biome`:
 
 ```text
   meadow   terrain/grass_meadow.png   +  fill_grass_meadow.png
@@ -382,10 +382,6 @@ Suggested mapping:
   snow     terrain/snow.png           (fill 37)
 ```
 
-The catch: the five sheets have different sizes and different edge-set origins, so the
-tilemap code needs a small per-biome descriptor instead of one shared index table. All the
-numbers it needs are in the Terrain section.
-
-**Decide this Friday with Track B before the type contract freezes.** If the answer is yes,
-`game/paletteSwap.ts` comes out of the file-ownership table in `PROMPTS.md` and Track B gets
-that time back.
+The five sheets have different sizes and different edge-set origins, so `tilemap.ts` needs a
+small per-biome descriptor instead of one shared index table. All the numbers it needs are in
+the Terrain section above.
