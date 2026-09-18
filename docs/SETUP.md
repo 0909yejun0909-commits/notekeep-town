@@ -76,15 +76,22 @@ Don't commit the art to anything public.
 ## 5. The demo vault
 
 Already built — it's `demo-vault/` in this repo (also zipped as `demo-vault.zip`), a real
-Obsidian-shaped vault: 3 regions, 2 houses each, 2 rooms each, 35 notes total. It travels to
-Sunday's repo (see the README) as `demo-vault.zip`.
+Obsidian-shaped vault, deliberately kept to the demo's baseline scope: **1 region (1 biome),
+2 houses, 1 room each, 6 notes total.** It travels to Sunday's repo (see the README) as
+`demo-vault.zip`.
+
+Why so small: the code (vault parser, tilemap, interiors) must still handle any number of
+regions/houses/rooms — that's in the type contract and isn't cut. But the demo vault only
+needs to exercise the golden path, and a bigger vault just means more building and more
+tokens spent on scenery nobody's testing against. Multi-biome tilesets and multi-room houses
+are stretch goals per the track prompts, not things the demo vault needs to prove out.
 
 Unzip it somewhere you can find fast — you'll point the app at it constantly during
 Saturday's rehearsal, and it's the fallback when your own vault isn't handy for a demo.
 
-Folder names became place names in the game (Riverside Hollow, Ember Hollow, Frostpeak
-Reach), so they're chosen to look good on a projector, not to be realistic. No embedded
-images — keeping it plain text keeps the vault parser simple to test against.
+Folder names became place names in the game (Riverside Hollow), so they're chosen to look
+good on a projector, not to be realistic. No embedded images — keeping it plain text keeps
+the vault parser simple to test against.
 
 ---
 

@@ -286,35 +286,39 @@ Fill in game/scenes/OverworldScene.ts and game/tilemap.ts. They already exist
 as stubs. game/gridMovement.ts already exists too — read it and use it. Do not
 write your own movement code.
 
-Build in this order, committing after each step. Step 1 is the demo; steps 4-5
-are expendable.
+Build in this order, committing after each step. Steps 1 and 3 are the baseline —
+the demo vault only ever has one biome (meadow) and simple houses, so that's all
+you need working. Steps 2, 4 and 5 are stretch goals: build them only after 1 and
+3 are solid and you have time left.
 
 1. WALKING FIRST. Render a hardcoded 30x20 grass tilemap from the terrain sheet
    and put the player on it using the existing GridMovement class. Camera follows,
    clamped to map bounds. Nothing else matters until this feels right — tune the
    tween until walking feels like Pokemon, roughly 150-180ms per tile.
 
-2. Autotiling: grass meeting path meeting water needs edge and corner tiles, not
-   hard squares. Use the manifest's edge indices. Scatter deterministic
+2. [STRETCH] Autotiling: grass meeting path meeting water needs edge and corner
+   tiles, not hard squares. Use the manifest's edge indices. Scatter deterministic
    decoration — flowers, rocks, foliage — from the region name hash.
 
 3. Houses from region.houses. Each is a building sprite chosen by its variant,
    a name label above it, a door tile at its bottom centre, solid collision
    everywhere except the door. Stepping on the door emits
    this.events.emit('enter-house', house.id) — another track handles what happens
-   next, you just emit it.
+   next, you just emit it. The demo vault only has two houses, but region.houses
+   can be any length — don't hardcode a count.
 
-4. Biomes — load the five hand-drawn terrain tilesets (one per BiomeId: meadow,
-   forest, desert, volcano, snow) per the per-biome descriptor in docs/ASSETS.md
-   and pick one by region.biome. Each sheet has its own size and edge-index
-   origin, so use a small per-biome descriptor rather than one shared index
-   table. No shader — just five images.
+4. [STRETCH] Biomes — load the five hand-drawn terrain tilesets (one per BiomeId:
+   meadow, forest, desert, volcano, snow) per the per-biome descriptor in
+   docs/ASSETS.md and pick one by region.biome. Each sheet has its own size and
+   edge-index origin, so use a small per-biome descriptor rather than one shared
+   index table. No shader — just five images. Skip this entirely if short on
+   time — the demo vault never exercises anything but meadow.
 
-5. Season overlay: a tint plus a particle layer (snow, leaves, rain, fireflies).
-   Cheap, and reads instantly on a projector.
+5. [STRETCH] Season overlay: a tint plus a particle layer (snow, leaves, rain,
+   fireflies). Cheap, and reads instantly on a projector.
 
-CUT ORDER IF LATE: drop 5, then 4 (ship meadow only), then 2. Never compromise
-1 or 3.
+CUT ORDER IF LATE: don't even start 5, 4 or 2 — go straight from 1 to 3. Never
+compromise 1 or 3.
 
 DONE WHEN: you can walk a region, movement is grid-locked and feels good, houses
 show with labels, and a door fires the event. Push to track-b.
@@ -332,7 +336,9 @@ stubs. game/gridMovement.ts already exists — read it and use it, do not write
 your own movement. Do not touch OverworldScene or anything in lib/.
 
 This track holds the single most important moment in the demo: walking up to a
-piece of furniture and reading a real note. Everything else is scenery.
+piece of furniture and reading a real note. Everything else is scenery. The demo
+vault only has one room per house, so that's the baseline — step 3 (multi-room)
+is a stretch goal, not something the demo needs.
 
 1. InteriorScene takes a houseId, looks up the House, renders its first room: a
    floor-and-wall tilemap sized to the note count, with a door at bottom centre
@@ -342,9 +348,10 @@ piece of furniture and reading a real note. Everything else is scenery.
    tile in front of it shows a small floating indicator. Space or Enter opens
    that note.
 
-3. If the house has more than one room, put labelled doorways along the top wall,
-   one per additional room. Walking through switches rooms within the same scene
-   — do not create a scene per room.
+3. [STRETCH] If the house has more than one room, put labelled doorways along
+   the top wall, one per additional room. Walking through switches rooms within
+   the same scene — do not create a scene per room. Skip this if short on time;
+   the demo vault never gives a house more than one room.
 
 4. components/NoteReader.tsx — a React overlay ABOVE the canvas, never drawn in
    Phaser. Takes a NoteRef, calls readNote(id) from useVault(), renders:
@@ -360,6 +367,8 @@ piece of furniture and reading a real note. Everything else is scenery.
    image-rendering: pixelated. But use a readable modern font for the note body —
    prose in a pixel font is unreadable on a projector, and this panel is what
    judges actually read.
+
+CUT ORDER IF LATE: drop 3. Never compromise 1, 2 or 4.
 
 DONE WHEN: from inside a house you walk to furniture, press Space, and read a
 real vault note with its images rendering. Push to track-c.
