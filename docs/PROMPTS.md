@@ -22,6 +22,13 @@ That's the whole design. The context lives in the repo, not in four people's cli
 
 **The build is 90 minutes.** Gate at 0:12, freeze at 1:05 — a 53-minute parallel window.
 
+**Every track prompt below is already cut to the bone.** What each agent can see is what
+the demo needs and nothing else — no stretch goals, no defensive edge cases, no polish
+passes. That is deliberate: an agent builds what is in front of it, and "cut it if you're
+late" does not work when *late* is discovered at 0:40 with 25 minutes left. What came out
+is in the [appendix](#appendix--the-stretch-list), and it gets handed out one item at a
+time, by Track A, only to a track that has already finished.
+
 | Time | Who | Paste |
 | --- | --- | --- |
 | 0:00 | Track A **alone** | [Prompt 0](#prompt-0--foundation) (includes the CLAUDE.md content + the asset manifest) |
@@ -266,10 +273,11 @@ working in those right now.
 3. preview: strip frontmatter, markdown syntax and image embeds, then take the
    first 200 characters of plain prose.
 
-4. Handle quietly: an empty vault; a vault with no subfolders (everything into
-   one region/house/room); a folder with 500 notes; and a browser without
-   showDirectoryPicker (Safari, Firefox) — show one line offering the bundled
-   demo vault rather than crashing.
+4. One try/catch around openVault, falling back to the bundled demo vault. That
+   is the whole of this track's defensive work. We present on one laptop, in
+   Chrome, with a vault we chose — do not write handling for empty vaults, for
+   vaults with no subfolders, or for a folder with 500 notes. Those break
+   off-camera or not at all, and you are the critical path.
 
 5. Export a React hook useVault() holding the VaultHandle in context, so scenes
    and the note reader can both reach it.
@@ -289,39 +297,27 @@ Fill in game/scenes/OverworldScene.ts and game/tilemap.ts. They already exist
 as stubs. game/gridMovement.ts already exists too — read it and use it. Do not
 write your own movement code.
 
-Build in this order, committing after each step. Steps 1 and 3 are the baseline —
-the demo vault only ever has one biome (meadow) and simple houses, so that's all
-you need working. Steps 2, 4 and 5 are stretch goals: build them only after 1 and
-3 are solid and you have time left.
+These two steps are the entire track. The demo vault has one biome (meadow) and
+simple houses — there is nothing else you need to build. Commit after each.
 
 1. WALKING FIRST. Render a hardcoded 30x20 grass tilemap from the terrain sheet
    and put the player on it using the existing GridMovement class. Camera follows,
    clamped to map bounds. Nothing else matters until this feels right — tune the
    tween until walking feels like Pokemon, roughly 150-180ms per tile.
 
-2. [STRETCH] Autotiling: grass meeting path meeting water needs edge and corner
-   tiles, not hard squares. Use the manifest's edge indices. Scatter deterministic
-   decoration — flowers, rocks, foliage — from the region name hash.
-
-3. Houses from region.houses. Each is a building sprite chosen by its variant,
+2. Houses from region.houses. Each is a building sprite chosen by its variant,
    a name label above it, a door tile at its bottom centre, solid collision
    everywhere except the door. Stepping on the door emits
    this.events.emit('enter-house', house.id) — another track handles what happens
    next, you just emit it. The demo vault only has two houses, but region.houses
    can be any length — don't hardcode a count.
 
-4. [STRETCH] Biomes — load the five hand-drawn terrain tilesets (one per BiomeId:
-   meadow, forest, desert, volcano, snow) per the per-biome descriptor in
-   docs/ASSETS.md and pick one by region.biome. Each sheet has its own size and
-   edge-index origin, so use a small per-biome descriptor rather than one shared
-   index table. No shader — just five images. Skip this entirely if short on
-   time — the demo vault never exercises anything but meadow.
+There is no step 3. Do not add autotiling, extra biomes, weather, particles or
+decoration passes. If both steps are solid and you still have time, say so and
+wait to be handed more — do not invent it.
 
-5. [STRETCH] Season overlay: a tint plus a particle layer (snow, leaves, rain,
-   fireflies). Cheap, and reads instantly on a projector.
-
-CUT ORDER IF LATE: don't even start 5, 4 or 2 — go straight from 1 to 3. Never
-compromise 1 or 3.
+CUT ORDER IF LATE: there is nothing left to cut. If you are behind at 0:40, ship
+step 1 and give the houses plain collision boxes without labels.
 
 DONE WHEN: you can walk a region, movement is grid-locked and feels good, houses
 show with labels, and a door fires the event. Push to track-b.
@@ -339,9 +335,11 @@ stubs. game/gridMovement.ts already exists — read it and use it, do not write
 your own movement. Do not touch OverworldScene or anything in lib/.
 
 This track holds the single most important moment in the demo: walking up to a
-piece of furniture and reading a real note. Everything else is scenery. The demo
-vault only has one room per house, so that's the baseline — step 3 (multi-room)
-is a stretch goal, not something the demo needs.
+piece of furniture and reading a real note. Everything else is scenery.
+
+Every house in the demo vault has exactly one room. Render the first room and
+stop — no multi-room doorways, no room switching. If a house has more rooms,
+they are not reachable today and that is fine.
 
 1. InteriorScene takes a houseId, looks up the House, renders its first room: a
    floor-and-wall tilemap sized to the note count, with a door at bottom centre
@@ -351,12 +349,7 @@ is a stretch goal, not something the demo needs.
    tile in front of it shows a small floating indicator. Space or Enter opens
    that note.
 
-3. [STRETCH] If the house has more than one room, put labelled doorways along
-   the top wall, one per additional room. Walking through switches rooms within
-   the same scene — do not create a scene per room. Skip this if short on time;
-   the demo vault never gives a house more than one room.
-
-4. components/NoteReader.tsx — a React overlay ABOVE the canvas, never drawn in
+3. components/NoteReader.tsx — a React overlay ABOVE the canvas, never drawn in
    Phaser. Takes a NoteRef, calls readNote(id) from useVault(), renders:
    - markdown via react-markdown + remark-gfm: headings, lists, task checkboxes,
      code blocks, tables, blockquotes
@@ -366,12 +359,13 @@ is a stretch goal, not something the demo needs.
    - Escape closes it, and closing RE-ENABLES Phaser keyboard input. Forgetting
      this is the most common way this feature looks broken.
 
-5. Style it to match the art: the UI pack's 9-slice panel frame,
+4. Style it to match the art: the UI pack's 9-slice panel frame,
    image-rendering: pixelated. But use a readable modern font for the note body —
    prose in a pixel font is unreadable on a projector, and this panel is what
-   judges actually read.
+   judges actually read. You own the only skinned panel in the build — Track D
+   is not styling anything, so do not wait for a shared component.
 
-CUT ORDER IF LATE: drop 3. Never compromise 1, 2 or 4.
+CUT ORDER IF LATE: drop 4. Never compromise 1, 2 or 3.
 
 DONE WHEN: from inside a house you walk to furniture, press Space, and read a
 real vault note with its images rendering. Push to track-c.
@@ -398,11 +392,19 @@ re-check it after every merge.
    the demo. Then bundle the demo vault as static JSON in /public so there is a
    "Try the demo town" path that works even if the directory picker fails.
 
-2. Character customiser — layered sprites. Base sheet plus hair, clothes and
-   accessory layers in the same frame order, composited in a Phaser container so
-   they animate together. ~6 options per layer plus a palette tint. Persist to
-   localStorage inside try/catch. Render as a React panel on the title screen
-   with a live animated preview.
+2. Character colour — ONE fixed outfit, ONE thing the user picks.
+   base.png is an unclothed body, so you do need a Phaser container compositing
+   base + shoes + pants + shirt + hair. Every layer shares the base's grid and
+   frame indices, so they animate together for free — set them all to the same
+   frame. HARDCODE shoes, pants and hair to one look you choose. The ONLY thing
+   the user changes is the shirt colour: six of the eight shirt files, as six
+   swatches. Persist to localStorage inside try/catch. Render as a React panel
+   on the title screen with a live animated preview.
+
+   Do NOT build a per-layer customiser. No hair-style picker, no shoe or trouser
+   options, no palette tinting, nothing that multiplies out to thousands of
+   combinations. The manifest lists 15,360 of them; you are shipping six. This
+   feature appears in none of the six demo beats and gets one texture swap.
 
 3. NPCs in game/npc.ts: wander the grid with a random walk respecting the same
    collision predicate. Walk up, press Space, dialogue box opens.
@@ -415,16 +417,52 @@ re-check it after every merge.
    say so in the demo, because "does it read my notes" is the first question
    anyone asks. On failure, fall back to a canned line. Never show an error.
 
-5. Title screen and UI skin: the UI pack's panels and buttons on the dialogue
-   box, vault picker and character creator, so it reads as one game rather than
-   a web app with a canvas in it.
+There is no step 5. Do not skin the title screen, the dialogue box or the vault
+picker with the UI pack — Track C owns the one panel that gets styled today.
+Plain, legible HTML is the correct finish for everything you own.
 
-CUT ORDER IF LATE: drop 5, then 2. Keep 1 and 3-4 — the NPC line is the cheapest
-"wow" in the build.
+CUT ORDER IF LATE: drop 2. Keep 1, 3 and 4 — the NPC line is the cheapest "wow"
+in the build and it is the last beat of the demo.
 
-DONE WHEN: main runs on the demo laptop, your customised character walks around,
-and an NPC says something recognisably about your own notes. Push to track-d.
+DONE WHEN: main runs on the demo laptop, your character walks around in a colour
+you picked, and an NPC says something recognisably about your own notes. Push to
+track-d.
 ```
+
+---
+
+## Appendix — the stretch list
+
+**Nobody pastes this at 0:14.** It is here so the work is written down, not so it gets
+built. Track A hands a single item to a single track, by name, only if that track reports
+its own prompt finished before **0:40**. One item at a time. A track that receives one and
+then misses the freeze has cost the demo more than the item was worth.
+
+Everything below was cut because it appears in none of the six golden-path beats
+(`REHEARSAL.md`) and the parallel window is 53 minutes.
+
+**B — autotiling.** Grass meeting path meeting water needs edge and corner tiles, not hard
+squares. Use the manifest's edge indices. Scatter deterministic decoration — flowers, rocks,
+foliage — from the region name hash.
+
+**B — the other four biomes.** Load the five hand-drawn terrain tilesets (one per BiomeId)
+per the per-biome descriptor in `ASSETS.md` and pick by `region.biome`. Each sheet has its
+own size and edge-index origin, so use a per-biome descriptor rather than one shared index
+table. No shader, just five images. The demo vault only ever exercises meadow.
+
+**B — season overlay.** A tint plus a particle layer (snow, leaves, rain, fireflies). Cheap,
+and reads instantly on a projector.
+
+**C — multi-room houses.** Labelled doorways along the top wall, one per additional room,
+walking through switches rooms *within the same scene* — never a scene per room.
+
+**D — the real character customiser.** Per-layer pickers over all of it: 6 hair styles x 5
+hair colours x 8 shoes x 8 pants x 8 shirts, the full 15,360 in `ASSETS.md`. The shipped
+build hardcodes everything but the shirt. This is the largest single item on the list;
+treat it as unreachable on the day.
+
+**D — full UI skin.** The UI pack's panels and buttons on the dialogue box, vault picker and
+title screen, so it reads as one game rather than a web app with a canvas in it.
 
 ---
 

@@ -100,15 +100,22 @@ used to be, and the parallel build window — gate to freeze — is only **53 mi
 
 | Gun time | Call |
 | --- | --- |
-| **0:40** | Is a character walking? If B isn't there, B starts cutting — steps 2, 4, 5 go. |
+| **0:40** | Is a character walking? Ask every track where they are. This is the only moment you hand out stretch items. |
 | **1:05** | Freeze and push. Everyone, whatever state it's in. |
 | **1:18** | Merge done, B → C → D. You drive it. |
 | **1:25** | Golden path on the demo laptop, start to finish, out loud. |
 
-Two things this compression changes. The 0:40 call now leaves only 25 minutes to act on it, so
-it is a real decision point, not a warning — if B isn't walking, B cuts immediately. And the
-merge gets 13 minutes instead of 25, which only works if the tracks are cleanly separated. If
-Sunday morning's merge runs long, fix the file ownership table before the freeze, not the merge.
+The 0:40 call changed shape. The prompts are already cut to the demo's six beats, so there is
+nothing left for a late track to drop — what's in front of them *is* the floor. That makes 0:40
+the opposite gate: the only point in the build where you hand anything **out**. A track that
+reports finished gets exactly one item from the appendix in `PROMPTS.md`, named by you, and
+only that one. Everybody else you leave alone. If B still isn't walking at 0:40, the fallback is
+in B's own prompt — step 1 plus houses with no labels — and you say it out loud rather than
+letting them find it.
+
+The merge also gets 13 minutes instead of 25, which only works if the tracks are cleanly
+separated. If Sunday morning's merge runs long, fix the file ownership table before the freeze,
+not the merge.
 
 ---
 

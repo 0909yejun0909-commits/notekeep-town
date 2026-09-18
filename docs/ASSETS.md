@@ -177,7 +177,9 @@ public/assets/character/hair/<style>_<colour>.png
 public/assets/character/hands.png            bare hands overlay, same grid
 ```
 
-That is 6 x 5 x 8 x 8 x 8 = 15,360 combinations, which is plenty for a character creator.
+That is 6 x 5 x 8 x 8 x 8 = 15,360 combinations. **We are shipping six.** Shoes, pants and
+hair are hardcoded to one look; only the shirt colour is selectable. The numbers above are
+here so the layers composite correctly, not as a menu — see Track D, step 2.
 
 ---
 

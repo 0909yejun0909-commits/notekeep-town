@@ -84,7 +84,8 @@ Why so small: the code (vault parser, tilemap, interiors) must still handle any 
 regions/houses/rooms — that's in the type contract and isn't cut. But the demo vault only
 needs to exercise the golden path, and a bigger vault just means more building and more
 tokens spent on scenery nobody's testing against. Multi-biome tilesets and multi-room houses
-are stretch goals per the track prompts, not things the demo vault needs to prove out.
+are cut from the track prompts entirely — they live in the appendix of `PROMPTS.md` and are
+not expected to get built, so the demo vault has no reason to exercise them.
 
 Unzip it somewhere you can find fast — you'll point the app at it constantly during
 Saturday's rehearsal, and it's the fallback when your own vault isn't handy for a demo.
