@@ -28,9 +28,19 @@ Credit "Kenmi — kenmi-art.itch.io" in the project report.
 
 ## Getting the art into Sunday's repo
 
-Run this from the repo root once the scaffold exists. It copies 97 files, 1.6 MB, and is the
-only step that touches the art. Set `KENMI=` if the packs live somewhere else. Tested as
-written — if a `cp` fails it stops immediately rather than half-copying.
+**Track A runs this by hand at ~0:15, after Prompt 0 finishes and before pushing `main`.** No
+agent knows about it. It lives as a runnable file at [`scripts/install-assets.sh`](../scripts/install-assets.sh)
+— don't copy it out of this markdown on the day, just run it with the destination as its one
+argument:
+
+```bash
+~/"Projects/Claude Build Day"/scripts/install-assets.sh public/assets
+```
+
+It copies 97 files, 1.6 MB, and is the only step that touches the art. Set `KENMI=` if the
+packs live somewhere else. Tested as written — if a `cp` fails it stops immediately rather
+than half-copying. The copy below is what that file contains, kept here because this manifest
+gets pasted into Prompt 0 whole.
 
 ```bash
 #!/usr/bin/env bash

@@ -67,6 +67,9 @@ No auth. No backend, except one small API route for NPC dialogue.
 | **Saturday 19** | Full timed dress rehearsal with cold sessions, then refine the prompts and **delete everything** | [`docs/REHEARSAL.md`](docs/REHEARSAL.md) |
 | **Sunday 20** | Build it live in three hours | [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 
+**Track A also has [`docs/DAY-OF.md`](docs/DAY-OF.md)** — the minute-by-minute script for the
+person who runs the repo, the gates and the clock. The other three tracks don't need it.
+
 📋 **[The full run of show is here](https://claude.ai/artifact/MLycCDD6BJNFkoCyaH1HFH)** — minute-by-minute
 Sunday timeline, gates, cut order, and every prompt with a copy button.
 
