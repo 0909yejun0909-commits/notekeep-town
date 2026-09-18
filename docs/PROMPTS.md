@@ -148,11 +148,37 @@ survive a reload.
 
 ## File ownership — four agents are working in this repo right now
 
-  Track A  lib/types.ts, lib/vault/*, game/gridMovement.ts, app/*
+  Track A  lib/types.ts, lib/vault/*, game/gridMovement.ts
   Track B  game/scenes/OverworldScene.ts, game/tilemap.ts
   Track C  game/scenes/InteriorScene.ts, components/NoteReader.tsx
   Track D  components/CharacterCreator.tsx, game/npc.ts,
            game/scenes/TitleScene.ts, app/api/npc/route.ts
+
+  NOBODY   package.json, game/config.ts, game/bus.ts, app/page.tsx,
+           app/layout.tsx
+           These five are written by the foundation commit and are FROZEN.
+           They already import and mount every component and wire every
+           event. If you think you need to edit one, you have misread your
+           prompt — the hook you want is already there.
+
+## How the pieces talk to each other
+
+Phaser cannot render React and React cannot reach into a scene, so everything
+crosses through game/bus.ts, a tiny typed emitter that exists before anyone
+branches. You never edit it. You emit on it and you listen to it.
+
+  bus.emit('enter-house', { houseId })   Overworld -> Interior   (Track B emits)
+  bus.emit('exit-house')                 Interior  -> Overworld  (Track C emits)
+  bus.emit('open-note',  { note })       Interior  -> React      (Track C emits)
+  bus.emit('close-note')                 React     -> Interior   (NoteReader emits)
+  bus.emit('talk-npc',   { npcId })      Overworld -> React      (Track D emits)
+
+app/page.tsx already subscribes to open-note and talk-npc and already renders
+<NoteReader> and <CharacterCreator>. The scene switch on enter-house / exit-house
+is already wired. Fill in your component or your scene; the plumbing is done.
+
+Never use this.events or this.scene.start() to cross a boundary. A scene-local
+emitter is invisible to React and to the other three tracks.
 
 ## Operating rules
 
@@ -167,9 +193,10 @@ survive a reload.
    someone else's file, not to improve an import. If a file you need is broken,
    say so and work around it.
 
-3. NEVER EDIT package.json OR game/config.ts. Every dependency is installed and
-   every scene registered by the foundation commit. If you think you need a new
-   dependency, you almost certainly do not.
+3. NEVER EDIT THE FROZEN FILES listed above. Every dependency is installed,
+   every scene registered, every component mounted and every event wired by the
+   foundation commit. If you think you need a new dependency, you almost
+   certainly do not — check package.json first, it is already there.
 
 4. IF SOMETHING YOU NEED DOES NOT EXIST YET, STUB IT LOCALLY AND MOVE ON. Do not
    build it properly — another agent owns it and is building it right now.
@@ -198,23 +225,53 @@ number you need is missing, stop and ask — do not estimate.
 
 STEP 2 — Scaffold a Next.js + TypeScript + Tailwind app in this empty directory.
 Install phaser@^3.90.0 explicitly, plus every dependency the whole project will
-need so nobody touches package.json again: react-markdown, remark-gfm.
+need so nobody touches package.json again:
+  phaser@^3.90.0
+  react-markdown
+  remark-gfm
+  @anthropic-ai/sdk        <- Track D's NPC route. Install it now. Track D is
+                              forbidden from touching package.json, so if you
+                              skip this the NPC feature cannot be built at all.
+Then write .env.local with ANTHROPIC_API_KEY= (leave the value empty, Track D
+fills it in on the demo laptop) and confirm .env* is in .gitignore.
 
 STEP 3 — Create lib/types.ts with the type contract above verbatim, plus the
 djb2 hash helper and the BIOMES / FURNITURE arrays.
 
-STEP 4 — Create app/page.tsx: a full-viewport dark page with a centred "Open your
-vault" button that calls showDirectoryPicker() and logs the handle. Mount Phaser
-in a client component dynamically imported with ssr: false.
+STEP 4 — Create game/bus.ts, the typed emitter described in CLAUDE.md above.
+Roughly twenty lines: a module-level emitter, an on/off/emit trio, and an event
+map covering enter-house, exit-house, open-note, close-note and talk-npc. No
+dependency — a Map of Sets of callbacks is enough. Everything else in this file
+list depends on it, so write it before them.
 
-STEP 5 — Create game/config.ts with the required Phaser config, and REGISTER ALL
-FOUR SCENES NOW as stubs so nobody edits this file again:
+STEP 5 — Create app/page.tsx. This is the file that makes four people's work
+appear on one screen, and nobody may edit it after you, so wire ALL of it now
+even though every component is still a stub:
+  - everything wrapped in <VaultProvider> imported from lib/vault/open.ts, so
+    Track A's useVault() hook has a provider without editing this file
+  - a full-viewport dark page with a centred "Open your vault" button that calls
+    openVault() from lib/vault/open.ts, plus a "Try the demo town" button
+  - the Phaser canvas in a client component, dynamically imported with
+    ssr: false
+  - <CharacterCreator /> rendered over the canvas, shown until the vault opens
+  - <NoteReader note={openNote} /> rendered over the canvas, mounted when a
+    bus 'open-note' arrives and unmounted on 'close-note'
+  - a bus listener for 'talk-npc' that renders a dialogue <div> — plain markup
+    is fine, Track D fills the content
+It must compile and run with every component still a TODO stub. A stub that
+renders null is correct at this stage.
+
+STEP 6 — Create game/config.ts with the required Phaser config, REGISTER ALL
+FOUR SCENES NOW as stubs so nobody edits this file again, and wire the scene
+switch on the bus: 'enter-house' starts InteriorScene with { houseId },
+'exit-house' returns to OverworldScene. Do this here, not in a scene — no track
+owns both sides of that transition.
   game/scenes/BootScene.ts       loads assets per the manifest, starts Overworld
   game/scenes/OverworldScene.ts  stub extending Phaser.Scene
   game/scenes/InteriorScene.ts   stub
   game/scenes/TitleScene.ts      stub
 
-STEP 6 — Create game/gridMovement.ts, the shared movement helper both the
+STEP 7 — Create game/gridMovement.ts, the shared movement helper both the
 overworld and interior scenes will import:
   - 16px grid, arrow keys and WASD
   - tweens between tile centres, one tile per press, input locked until the
@@ -224,13 +281,20 @@ overworld and interior scenes will import:
   - drives a 4-direction walk animation and an idle frame on stop
 Export it as a class constructed with a sprite and a collision function.
 
-STEP 7 — Create stub files so no other track ever has to create them:
+STEP 8 — Create stub files so no other track ever has to create them:
   game/tilemap.ts, game/npc.ts,
   components/NoteReader.tsx, components/CharacterCreator.tsx,
-  lib/vault/parse.ts, lib/vault/open.ts
-Each exports one function with the correct signature and a TODO body.
+  lib/vault/parse.ts, lib/vault/open.ts, app/api/npc/route.ts
+Each exports one function with the correct signature and a TODO body. Two of
+these matter more than the rest:
+  - the two components must render null without throwing, because app/page.tsx
+    already mounts them
+  - lib/vault/open.ts must export VaultProvider and useVault as well as
+    openVault, because app/page.tsx already wraps the tree in the provider
+  - game/npc.ts must export spawnNpcs(scene, region) as a no-op, because
+    OverworldScene will call it and Track D may not edit that file
 
-STEP 8 — Write docs/ASSETS.md containing the manifest I pasted, so other tracks
+STEP 9 — Write docs/ASSETS.md containing the manifest I pasted, so other tracks
 can read it from disk.
 
 DEFINITION OF DONE: `npm run dev` serves the page, the button opens a directory
@@ -240,7 +304,8 @@ Do not polish anything.
 
 THE ASSET MANIFEST FOLLOWS — append it to CLAUDE.md and write it to docs/ASSETS.md:
 
-[paste the filled-in contents of docs/ASSETS.md here]
+[paste docs/ASSETS.md here, DOWN TO THE "END OF PASTE" LINE AND NO FURTHER —
+everything below that line documents features that were cut]
 ```
 
 ---
@@ -279,8 +344,11 @@ working in those right now.
    vaults with no subfolders, or for a folder with 500 notes. Those break
    off-camera or not at all, and you are the critical path.
 
-5. Export a React hook useVault() holding the VaultHandle in context, so scenes
-   and the note reader can both reach it.
+5. Fill in VaultProvider and useVault() in lib/vault/open.ts — both already exist
+   as stubs and app/page.tsx already wraps the tree in the provider, so do not
+   touch app/. The provider holds the VaultHandle in context; scenes and the note
+   reader both read it through the hook. Getting this right unblocks Tracks B and
+   C, so do it before step 3 or 4 if you are running behind.
 
 DONE WHEN: you pick the demo vault and console.log(world) shows the correct
 nested structure, with positions identical across two reloads. Push to main.
@@ -307,10 +375,17 @@ simple houses — there is nothing else you need to build. Commit after each.
 
 2. Houses from region.houses. Each is a building sprite chosen by its variant,
    a name label above it, a door tile at its bottom centre, solid collision
-   everywhere except the door. Stepping on the door emits
-   this.events.emit('enter-house', house.id) — another track handles what happens
-   next, you just emit it. The demo vault only has two houses, but region.houses
-   can be any length — don't hardcode a count.
+   everywhere except the door. Stepping on the door calls
+   bus.emit('enter-house', { houseId: house.id }) — import the bus from
+   game/bus.ts. The scene switch is already wired in game/config.ts; you only
+   emit. Do NOT use this.events and do NOT call this.scene.start() yourself.
+   The demo vault only has two houses, but region.houses can be any length —
+   don't hardcode a count.
+
+   One extra line at the end of create(): call spawnNpcs(this, region) from
+   game/npc.ts. It is a stub that does nothing until Track D fills it in, and it
+   is the only way NPCs can reach your scene — Track D is not allowed to edit
+   OverworldScene. Write the call, don't write the function.
 
 There is no step 3. Do not add autotiling, extra biomes, weather, particles or
 decoration passes. If both steps are solid and you still have time, say so and
@@ -341,23 +416,28 @@ Every house in the demo vault has exactly one room. Render the first room and
 stop — no multi-room doorways, no room switching. If a house has more rooms,
 they are not reachable today and that is fine.
 
-1. InteriorScene takes a houseId, looks up the House, renders its first room: a
-   floor-and-wall tilemap sized to the note count, with a door at bottom centre
-   that returns to the overworld.
+1. InteriorScene reads houseId from its scene data (game/config.ts passes it in
+   on the bus 'enter-house' event — you do not wire that), looks up the House,
+   and renders its first room: a floor-and-wall tilemap sized to the note count,
+   with a door at bottom centre. Stepping on the door calls bus.emit('exit-house')
+   — never this.scene.start().
 
 2. One furniture sprite per note at its gx/gy, by furniture type. Standing on the
-   tile in front of it shows a small floating indicator. Space or Enter opens
-   that note.
+   tile in front of it shows a small floating indicator. Space or Enter calls
+   bus.emit('open-note', { note }). app/page.tsx is already listening and will
+   mount your NoteReader — you do not render React from inside Phaser.
 
 3. components/NoteReader.tsx — a React overlay ABOVE the canvas, never drawn in
-   Phaser. Takes a NoteRef, calls readNote(id) from useVault(), renders:
+   Phaser. It is ALREADY MOUNTED by app/page.tsx; you are filling in the stub,
+   not wiring it up. Takes a NoteRef, calls readNote(id) from useVault(), renders:
    - markdown via react-markdown + remark-gfm: headings, lists, task checkboxes,
      code blocks, tables, blockquotes
    - Obsidian embeds ![[image.png]] resolved through readBinary() as object URLs,
      revoked on unmount
    - video the same way, in <video controls>
-   - Escape closes it, and closing RE-ENABLES Phaser keyboard input. Forgetting
-     this is the most common way this feature looks broken.
+   - Escape closes it via bus.emit('close-note'), and closing RE-ENABLES Phaser
+     keyboard input. Forgetting this is the most common way this feature looks
+     broken.
 
 4. Style it to match the art: the UI pack's 9-slice panel frame,
    image-rendering: pixelated. But use a readable modern font for the note body —
@@ -398,24 +478,37 @@ re-check it after every merge.
    frame indices, so they animate together for free — set them all to the same
    frame. HARDCODE shoes, pants and hair to one look you choose. The ONLY thing
    the user changes is the shirt colour: six of the eight shirt files, as six
-   swatches. Persist to localStorage inside try/catch. Render as a React panel
-   on the title screen with a live animated preview.
+   swatches. Persist to localStorage inside try/catch. CharacterCreator.tsx is
+   ALREADY MOUNTED by app/page.tsx over the canvas — fill in the stub, with a
+   live animated preview. Do not wire it up and do not edit app/page.tsx.
 
    Do NOT build a per-layer customiser. No hair-style picker, no shoe or trouser
    options, no palette tinting, nothing that multiplies out to thousands of
    combinations. The manifest lists 15,360 of them; you are shipping six. This
    feature appears in none of the six demo beats and gets one texture swap.
 
-3. NPCs in game/npc.ts: wander the grid with a random walk respecting the same
-   collision predicate. Walk up, press Space, dialogue box opens.
+3. NPCs in game/npc.ts. Export spawnNpcs(scene, region) — OverworldScene already
+   calls it and you may not edit that file, so everything you do happens inside
+   this one function. Add a few NPCs that wander the grid with a random walk
+   respecting the same collision predicate. Walk up, press Space, and call
+   bus.emit('talk-npc', { npcId }) — app/page.tsx already listens and renders
+   the dialogue box. You fill in what goes in it. Never render UI inside Phaser.
 
 4. app/api/npc/route.ts — POST up to 12 note titles plus the region name, return
    one or two short lines of in-world village dialogue referencing what the
    person has actually been writing about. A villager gossiping: "Heard you've
    been buried in API redesigns again." Under 30 words, warm, never sycophantic.
-   Use the AI SDK with a fast model. Send ONLY titles, never note bodies — and
-   say so in the demo, because "does it read my notes" is the first question
-   anyone asks. On failure, fall back to a canned line. Never show an error.
+
+   @anthropic-ai/sdk is ALREADY INSTALLED — do not add a dependency and do not
+   reach for a gateway or a provider wrapper. Read the key from
+   process.env.ANTHROPIC_API_KEY; .env.local already exists with the name in it
+   and you paste the value in on the demo laptop. Model: claude-haiku-4-5-20251001,
+   max_tokens 100. Do not guess a model string.
+
+   Send ONLY titles, never note bodies — and say so in the demo, because "does it
+   read my notes" is the first question anyone asks. On failure, fall back to a
+   canned line. Never show an error. Test it with the key absent: the fallback
+   line is what the audience sees if the venue wifi drops.
 
 There is no step 5. Do not skin the title screen, the dialogue box or the vault
 picker with the UI pack — Track C owns the one panel that gets styled today.

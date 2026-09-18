@@ -72,8 +72,14 @@ So the night before, in an empty directory, run Prompt 0 cold and check:
 - [ ] A Phaser canvas mounts with no console errors
 - [ ] `npx tsc --noEmit` passes
 - [ ] All four scenes exist and are registered in `game/config.ts`
-- [ ] All six stub files from Step 7 exist
+- [ ] All seven stub files from Step 8 exist
 - [ ] `game/gridMovement.ts` is real, not a stub
+- [ ] `game/bus.ts` exists and exports on/off/emit
+- [ ] `app/page.tsx` mounts `<NoteReader>` and `<CharacterCreator>`, and the bus
+      drives the scene switch — the whole point of the foundation is that no track
+      has to wire itself in
+- [ ] `package.json` lists `@anthropic-ai/sdk`, and `.env.local` exists with
+      `ANTHROPIC_API_KEY=`
 
 Fix Prompt 0 until that checklist passes in one shot. Then delete the directory.
 
@@ -264,8 +270,20 @@ exactly one place:
 | **Accept it** | Cheap to correct live, not worth prompt bloat. Some things are fine to just say on the day. |
 
 Also settle the **real timings**. How far did each track actually get in the 53-minute build
-window? That's tonight's budget, not the estimate in the run of show. If a track fell short,
-cut its steps 4–5 now rather than discovering it at 1:05 tonight.
+window? That's tonight's budget, not the estimate in the run of show.
+
+If a track fell short, the honest move is no longer "cut its last steps" — the prompts were cut
+to the six demo beats on the 19th and there is no fat left in them. What's cuttable now is
+exactly this, and nothing else:
+
+| Track | The only thing left to drop |
+| --- | --- |
+| A | nothing — it is the critical path |
+| B | house name labels |
+| C | step 4, the panel styling |
+| D | step 2, the shirt colours |
+
+**Never cut D's steps 3–4.** The NPC line is beat 6, the last thing the judges see.
 
 ---
 
@@ -310,7 +328,10 @@ Also rehearse the two questions you'll definitely get:
 
 - *"Does it read my notes?"* — Only titles leave the machine, and only for NPC dialogue.
   Note content never leaves the browser. Say it before they ask.
-- *"What if I have 500 notes?"* — You tested this. Have the answer.
+- *"What if I have 500 notes?"* — **Do not say you tested it; you didn't.** That handling was
+  cut from Track A to protect the critical path. The honest answer is the architecture: notes
+  load lazily through `readNote()`, so the town builds from the folder tree and nothing is read
+  until you walk up to it. Say what the design does, not what you measured.
 
 ---
 

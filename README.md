@@ -92,7 +92,13 @@ Split so no two people ever edit the same file.
 
 **Track A is the critical path.** Everyone is blocked until A pushes the foundation at 0:12.
 
-Put your name in that table on Friday.
+**Nobody owns `package.json`, `game/config.ts`, `game/bus.ts`, `app/page.tsx` or
+`app/layout.tsx`.** The foundation commit writes all five, already importing every component
+and wiring every event, and then they are frozen. That's deliberate: three of the four tracks
+build something that has to be mounted or listened to by a file they don't own, and "just be
+careful at the merge" is not a plan with 13 minutes of merge window.
+
+Put your name in that table — it was a Friday job and it is now overdue.
 
 ---
 

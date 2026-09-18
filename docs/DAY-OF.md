@@ -30,16 +30,20 @@ gh repo create notekeep-town --private --source=. --remote=origin
 
 Open a **brand new** session in `~/notekeep-town`. No prior conversation, nothing pre-loaded.
 
-Paste, as one message: **Prompt 0**, then the whole of `docs/ASSETS.md` where the prompt says
-`[paste the filled-in contents of docs/ASSETS.md here]`.
+Paste, as one message: **Prompt 0**, then `docs/ASSETS.md` where the prompt says to — **stopping
+at the `END OF PASTE` line**. Everything below that line is the manifest for cut features and
+does not go into anyone's context.
 
 Then say out loud: *"Prompt 0 is running. Nobody opens a session in the repo until I say."*
 
 While it runs, watch for three things and interrupt for nothing else:
 
-- [ ] `package.json` says `phaser@^3.90.0`, not `^4`
+- [ ] `package.json` says `phaser@^3.90.0`, not `^4`, and lists `@anthropic-ai/sdk`
 - [ ] `CLAUDE.md` at the repo root, with the asset manifest appended
 - [ ] all four scenes registered in `game/config.ts`
+- [ ] `game/bus.ts` exists, and `app/page.tsx` mounts `NoteReader` **and**
+      `CharacterCreator` — if it doesn't, three tracks have nowhere to render and
+      you won't find out until the merge
 
 ---
 
@@ -63,6 +67,11 @@ Then the two steps the agent doesn't know about:
 printf '/public/assets/\n' >> .gitignore
 cp ~/"Projects/Claude Build Day"/demo-vault.zip .
 ```
+
+Then hand the repo to Track D for ten seconds: **they paste the Fable API key into `.env.local`**
+on the demo laptop. Prompt 0 creates the file with an empty `ANTHROPIC_API_KEY=`, so this is a
+paste, not a setup step — but it is the only thing standing between you and beat 6 of the demo,
+and `.env*` is gitignored so it will not travel with the push.
 
 The gitignore line is the licence — Kenmi's terms forbid redistribution, so the art never gets
 committed even to a private repo.

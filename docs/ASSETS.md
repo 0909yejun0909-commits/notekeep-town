@@ -202,7 +202,9 @@ player** (verified on farmer_bob and bartender_katy).
 
 ## Terrain and biomes
 
-**There is real art for all five biomes — no palette-swap shader is needed.** See OPEN below.
+**Track B builds meadow only.** There is real art for all five biomes, but four of them were
+cut on the 19th — their sheets and per-biome mapping are in the appendix below the paste
+boundary. The only fill you need today is `fill_grass_meadow.png`.
 
 ### Ground fills (one solid tile each, just repeat it)
 
@@ -218,46 +220,11 @@ player** (verified on farmer_bob and bartender_katy).
   snow / ice     terrain/snow.png          tile 37             solid        #94F3F4
 ```
 
-### Edge sets
+### Edge sets — CUT, see the appendix
 
-The convention across this pack: a transition is a **3x3 block of outer edges plus a 2x2 block
-of inner corners**. The number given is the index of the block's top-left tile.
-
-```text
-FILE: public/assets/terrain/grass_meadow.png   (and grass_forest.png — identical layout)
-  dimensions: 256x160,  16 cols x 10 rows,  index = row*16 + col
-
-  grass over a transparent hole     3x3 origin   0   (centre tile 17 is empty)
-    its inner corners               2x2 origin  48
-  grass with a dirt lip             3x3 origin   3   (centre tile 20 is empty)
-    its inner corners               2x2 origin  51
-  grass -> PATH                     3x3 origin  80   (centre tile 97 is solid sand)
-    its inner corners               2x2 origin 128
-  grass with a stone lip            3x3 origin  83   (centre tile 100 is empty)
-    its inner corners               2x2 origin 131
-
-  Decoration (non-colliding, scatter on grass): tiles 149, 150, 151
-  Columns 8-15 are log-wall and stone-wall blocks. Not used.
-
-  Grass_Tiles_1..4 are the same layout in four colours — swapping the image keeps every
-  index valid. 1 = meadow #3E8948, 2 = forest #33984B, 3 = olive #7C963C, 4 = teal #3F886C.
-
-FILE: public/assets/terrain/water.png     48x80, 3 cols x 5 rows
-  3x3 outer at origin 0, centre tile 4 is solid water, inner corners 9,10,12,13.
-  NOTE: the grass colour is baked into these edge tiles, so water only borders grass.
-
-FILE: public/assets/terrain/cobble.png    48x80, same 3x3 + 2x2 shape, sand baked into edges
-FILE: public/assets/terrain/desert.png    48x80, same shape, sand baked into edges
-FILE: public/assets/terrain/snow.png      128x80, 8 cols x 5 rows
-  3x3 origin 0 (plain ice lip), 3x3 origin 3 (dirt lip), inner corners 24 and 27, fill 37.
-FILE: public/assets/terrain/volcano.png   464x144, 29 cols x 9 rows
-  rock 3x3 origin 1, lava 3x3 origin 181 (centre 211).
-FILE: public/assets/terrain/cliff.png     224x96, 14 cols x 6 rows
-```
-
-**Don't wire a water animation.** In this version of the pack every water `_Anim` sheet (and
-`Fountain_Anim`) is just N identical copies of the still frame — verified byte for byte. The
-water does not move. `Chest_Anim` and `Campfire_Anim` do animate.
+Autotiling was cut on the 19th. Track B renders a flat fill and nothing else, so the 3x3 edge
+and 2x2 corner origins are not needed today. They are in the appendix at the bottom of this
+file, below the paste boundary, in case a stretch item is handed out.
 
 ---
 
@@ -374,6 +341,64 @@ Pulled straight from the PNGs, so these match the art exactly.
   snow / ice    #94F3F4      shroom blue   #357B9C      shroom purple #825E80
   wood floor    #91533B      wood light    #B86F50
 ```
+
+---
+
+---
+
+<!-- ===================== END OF PASTE ===================== -->
+
+**STOP HERE when pasting into Prompt 0.** Everything above this line goes into `CLAUDE.md`.
+Everything below documents scope that was cut on 19 September and must NOT be pasted — it is
+~60 lines of frame indices for features nobody is building, and it would sit in all four
+agents' context for the whole ninety minutes.
+
+---
+
+# Appendix — manifest for cut scope
+
+Hand a track one of these only at the 0:40 call, per the appendix rules in `PROMPTS.md`.
+
+## Edge sets
+
+The convention across this pack: a transition is a **3x3 block of outer edges plus a 2x2 block
+of inner corners**. The number given is the index of the block's top-left tile.
+
+```text
+FILE: public/assets/terrain/grass_meadow.png   (and grass_forest.png — identical layout)
+  dimensions: 256x160,  16 cols x 10 rows,  index = row*16 + col
+
+  grass over a transparent hole     3x3 origin   0   (centre tile 17 is empty)
+    its inner corners               2x2 origin  48
+  grass with a dirt lip             3x3 origin   3   (centre tile 20 is empty)
+    its inner corners               2x2 origin  51
+  grass -> PATH                     3x3 origin  80   (centre tile 97 is solid sand)
+    its inner corners               2x2 origin 128
+  grass with a stone lip            3x3 origin  83   (centre tile 100 is empty)
+    its inner corners               2x2 origin 131
+
+  Decoration (non-colliding, scatter on grass): tiles 149, 150, 151
+  Columns 8-15 are log-wall and stone-wall blocks. Not used.
+
+  Grass_Tiles_1..4 are the same layout in four colours — swapping the image keeps every
+  index valid. 1 = meadow #3E8948, 2 = forest #33984B, 3 = olive #7C963C, 4 = teal #3F886C.
+
+FILE: public/assets/terrain/water.png     48x80, 3 cols x 5 rows
+  3x3 outer at origin 0, centre tile 4 is solid water, inner corners 9,10,12,13.
+  NOTE: the grass colour is baked into these edge tiles, so water only borders grass.
+
+FILE: public/assets/terrain/cobble.png    48x80, same 3x3 + 2x2 shape, sand baked into edges
+FILE: public/assets/terrain/desert.png    48x80, same shape, sand baked into edges
+FILE: public/assets/terrain/snow.png      128x80, 8 cols x 5 rows
+  3x3 origin 0 (plain ice lip), 3x3 origin 3 (dirt lip), inner corners 24 and 27, fill 37.
+FILE: public/assets/terrain/volcano.png   464x144, 29 cols x 9 rows
+  rock 3x3 origin 1, lava 3x3 origin 181 (centre 211).
+FILE: public/assets/terrain/cliff.png     224x96, 14 cols x 6 rows
+```
+
+**Don't wire a water animation.** In this version of the pack every water `_Anim` sheet (and
+`Fountain_Anim`) is just N identical copies of the still frame — verified byte for byte. The
+water does not move. `Chest_Anim` and `Campfire_Anim` do animate.
 
 ---
 

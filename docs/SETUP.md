@@ -91,8 +91,12 @@ Unzip it somewhere you can find fast — you'll point the app at it constantly d
 Saturday's rehearsal, and it's the fallback when your own vault isn't handy for a demo.
 
 Folder names became place names in the game (Riverside Hollow), so they're chosen to look
-good on a projector, not to be realistic. No embedded images — keeping it plain text keeps
-the vault parser simple to test against.
+good on a projector, not to be realistic.
+
+**One note carries an embedded image** — `Waterwheel Notes.md` has `![[waterwheel-sketch.png]]`
+and a task list. That's deliberate and it is the only one. Beat 5 of the demo is *"read a real
+note with an image"*, and Track C's embed resolution through `readBinary()` is otherwise
+untestable in either rehearsal. Don't strip it to keep the vault tidy.
 
 ---
 
@@ -101,13 +105,21 @@ the vault parser simple to test against.
 Only **Track D** needs this, for NPC dialogue:
 
 ```
-AI_GATEWAY_API_KEY=...
+ANTHROPIC_API_KEY=...
 ```
 
-Track D: have this ready before Sunday, and remember it has to land in `.env.local` on the
-**demo laptop** — we present by screen-sharing one machine running it locally, so there's no
-deploy to hold the key for us. Everyone else needs nothing — there's no database, no auth, no
-Supabase, no `.env` file at all.
+This is the key from the **$100 of Fable API credit handed out at the event** — an Anthropic
+console key, used directly through `@anthropic-ai/sdk`. It is not a Vercel AI Gateway key; the
+Vercel deploy was dropped, and anything in an older doc saying `AI_GATEWAY_API_KEY` is stale.
+
+Prompt 0 writes `.env.local` with the empty variable name in it, so the only job on the night
+is pasting the value. It has to land on the **demo laptop** — we present by screen-sharing one
+machine running locally, so there's no deploy holding the key for us. Everyone else needs
+nothing: no database, no auth, no Supabase.
+
+> **Track D, test the no-key path too.** The route falls back to a canned line when the call
+> fails, and venue wifi is the most likely thing to break at 19:30. The fallback is what the
+> audience sees, so it should be a line you'd be happy to demo.
 
 ---
 
