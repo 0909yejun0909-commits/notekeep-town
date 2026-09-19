@@ -72,14 +72,14 @@ So the night before, in an empty directory, run Prompt 0 cold and check:
 - [ ] A Phaser canvas mounts with no console errors
 - [ ] `npx tsc --noEmit` passes
 - [ ] All four scenes exist and are registered in `game/config.ts`
-- [ ] All seven stub files from Step 8 exist
+- [ ] All six stub files from Step 8 exist
 - [ ] `game/gridMovement.ts` is real, not a stub
 - [ ] `game/bus.ts` exists and exports on/off/emit
-- [ ] `app/page.tsx` mounts `<NoteReader>` and `<CharacterCreator>`, and the bus
-      drives the scene switch — the whole point of the foundation is that no track
-      has to wire itself in
-- [ ] `package.json` lists `@anthropic-ai/sdk`, and `.env.local` exists with
-      `ANTHROPIC_API_KEY=`
+- [ ] `components/PhaserCanvas.tsx` exists and `app/page.tsx` dynamically
+      imports it with `ssr: false`
+- [ ] `app/page.tsx` mounts `<NoteReader>` and `<CharacterCreator visible={...} />`,
+      and the bus drives the scene switch — the whole point of the foundation
+      is that no track has to wire itself in
 
 Fix Prompt 0 until that checklist passes in one shot. Then delete the directory.
 

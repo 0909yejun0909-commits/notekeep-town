@@ -100,22 +100,13 @@ untestable in either rehearsal. Don't strip it to keep the vault tidy.
 
 ---
 
-## 6. One environment variable
+## 6. No environment variable
 
-Only **Track D** needs this, for NPC dialogue:
-
-```
-ANTHROPIC_API_KEY=...
-```
-
-This is the key from the **$100 of Fable API credit handed out at the event** — an Anthropic
-console key, used directly through `@anthropic-ai/sdk`. It is not a Vercel AI Gateway key; the
-Vercel deploy was dropped, and anything in an older doc saying `AI_GATEWAY_API_KEY` is stale.
-
-Prompt 0 writes `.env.local` with the empty variable name in it, so the only job on the night
-is pasting the value. It has to land on the **demo laptop** — we present by screen-sharing one
-machine running locally, so there's no deploy holding the key for us. Everyone else needs
-nothing: no database, no auth, no Supabase.
+NPC dialogue was AI-generated in an earlier version of this plan; it was cut on the 19th as too
+much live-demo risk for the last beat of the show — an API key, venue wifi and an untested route
+all sitting between you and beat 6. It's now a hardcoded line per NPC, chosen by Track D at
+build time. There is no key to hold, no `.env.local` to fill in, and nothing here for anyone to
+do before Sunday. Everyone needs nothing: no database, no auth, no Supabase, no API key.
 
 > **Track D, test the no-key path too.** The route falls back to a canned line when the call
 > fails, and venue wifi is the most likely thing to break at 19:30. The fallback is what the

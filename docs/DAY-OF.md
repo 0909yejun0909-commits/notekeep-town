@@ -38,7 +38,7 @@ Then say out loud: *"Prompt 0 is running. Nobody opens a session in the repo unt
 
 While it runs, watch for three things and interrupt for nothing else:
 
-- [ ] `package.json` says `phaser@^3.90.0`, not `^4`, and lists `@anthropic-ai/sdk`
+- [ ] `package.json` says `phaser@^3.90.0`, not `^4`
 - [ ] `CLAUDE.md` at the repo root, with the asset manifest appended
 - [ ] all four scenes registered in `game/config.ts`
 - [ ] `game/bus.ts` and `components/PhaserCanvas.tsx` exist, and `app/page.tsx`
@@ -68,10 +68,8 @@ printf '/public/assets/\n' >> .gitignore
 cp ~/"Projects/Claude Build Day"/demo-vault.zip .
 ```
 
-Then hand the repo to Track D for ten seconds: **they paste the Fable API key into `.env.local`**
-on the demo laptop. Prompt 0 creates the file with an empty `ANTHROPIC_API_KEY=`, so this is a
-paste, not a setup step — but it is the only thing standing between you and beat 6 of the demo,
-and `.env*` is gitignored so it will not travel with the push.
+There is no key to paste today — beat 6's NPC dialogue is a hardcoded line, not an API call, so
+there is nothing standing between Track D and that beat except their own two steps.
 
 The gitignore line is the licence — Kenmi's terms forbid redistribution, so the art never gets
 committed even to a private repo.

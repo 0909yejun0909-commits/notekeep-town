@@ -152,7 +152,7 @@ survive a reload.
   Track B  game/scenes/OverworldScene.ts, game/tilemap.ts
   Track C  game/scenes/InteriorScene.ts, components/NoteReader.tsx
   Track D  components/CharacterCreator.tsx, game/npc.ts,
-           game/scenes/TitleScene.ts, app/api/npc/route.ts
+           game/scenes/TitleScene.ts
 
   NOBODY   package.json, game/config.ts, game/bus.ts, app/page.tsx,
            app/layout.tsx, components/PhaserCanvas.tsx
@@ -171,7 +171,7 @@ branches. You never edit it. You emit on it and you listen to it.
   bus.emit('exit-house')                 Interior  -> Overworld  (Track C emits)
   bus.emit('open-note',  { note })       Interior  -> React      (Track C emits)
   bus.emit('close-note')                 React     -> Interior   (NoteReader emits)
-  bus.emit('talk-npc',   { npcId })      Overworld -> React      (Track D emits)
+  bus.emit('talk-npc',   { npcId, line })   Overworld -> React   (Track D emits)
 
 app/page.tsx already subscribes to open-note and talk-npc and already renders
 <NoteReader> and <CharacterCreator>. The scene switch on enter-house / exit-house
@@ -229,11 +229,8 @@ need so nobody touches package.json again:
   phaser@^3.90.0
   react-markdown
   remark-gfm
-  @anthropic-ai/sdk        <- Track D's NPC route. Install it now. Track D is
-                              forbidden from touching package.json, so if you
-                              skip this the NPC feature cannot be built at all.
-Then write .env.local with ANTHROPIC_API_KEY= (leave the value empty, Track D
-fills it in on the demo laptop) and confirm .env* is in .gitignore.
+Confirm .env* is in .gitignore. There is no API key and no server route today
+— NPC dialogue is a hardcoded line, not a model call. See Track D.
 
 STEP 3 — Create lib/types.ts with the type contract above verbatim, plus the
 djb2 hash helper and the BIOMES / FURNITURE arrays.
@@ -258,8 +255,9 @@ even though every component is still a stub:
     the only prop it takes, true until the vault opens, then false
   - <NoteReader note={openNote} /> rendered over the canvas, mounted when a
     bus 'open-note' arrives and unmounted on 'close-note'
-  - a bus listener for 'talk-npc' that renders a dialogue <div> — plain markup
-    is fine, Track D fills the content
+  - a bus listener for 'talk-npc' that renders a dialogue <div> showing the
+    `line` field straight off the event payload — plain markup is fine, Track D
+    supplies the text by emitting it, not by you looking anything up
 It must compile and run with every component still a TODO stub. A stub that
 renders null is correct at this stage.
 
@@ -286,7 +284,7 @@ Export it as a class constructed with a sprite and a collision function.
 STEP 8 — Create stub files so no other track ever has to create them:
   game/tilemap.ts, game/npc.ts,
   components/NoteReader.tsx, components/CharacterCreator.tsx,
-  lib/vault/parse.ts, lib/vault/open.ts, app/api/npc/route.ts
+  lib/vault/parse.ts, lib/vault/open.ts
 Each exports one function with the correct signature and a TODO body. Two of
 these matter more than the rest:
   - the two components must render null without throwing, because app/page.tsx
@@ -460,9 +458,8 @@ real vault note with its images rendering. Push to track-c.
 ```text
 Read CLAUDE.md and docs/ASSETS.md first. You are Track D.
 
-Fill in components/CharacterCreator.tsx, game/npc.ts, game/scenes/TitleScene.ts
-and app/api/npc/route.ts. Do not touch OverworldScene, InteriorScene, NoteReader
-or lib/.
+Fill in components/CharacterCreator.tsx, game/npc.ts and game/scenes/TitleScene.ts.
+Do not touch OverworldScene, InteriorScene, NoteReader or lib/.
 
 You also own the demo working on the day, so do step 1 before anything else and
 re-check it after every merge.
@@ -493,37 +490,29 @@ re-check it after every merge.
 
 3. NPCs in game/npc.ts. Export spawnNpcs(scene, region) — OverworldScene already
    calls it and you may not edit that file, so everything you do happens inside
-   this one function. Add a few NPCs that wander the grid with a random walk
-   respecting the same collision predicate. Walk up, press Space, and call
-   bus.emit('talk-npc', { npcId }) — app/page.tsx already listens and renders
-   the dialogue box. You fill in what goes in it. Never render UI inside Phaser.
+   this one function. Spawn AT LEAST THREE NPCs that wander the grid with a
+   random walk respecting the same collision predicate. Give each NPC a fixed
+   id (e.g. 'farmer_bob'). Walk up to one, press Space, and call
+   bus.emit('talk-npc', { npcId, line }) — app/page.tsx already listens and
+   renders the dialogue box using `line` directly. Never render UI inside
+   Phaser.
 
-4. app/api/npc/route.ts — POST up to 12 note titles plus the region name, return
-   one or two short lines of in-world village dialogue referencing what the
-   person has actually been writing about. A villager gossiping: "Heard you've
-   been buried in API redesigns again." Under 30 words, warm, never sycophantic.
-
-   @anthropic-ai/sdk is ALREADY INSTALLED — do not add a dependency and do not
-   reach for a gateway or a provider wrapper. Read the key from
-   process.env.ANTHROPIC_API_KEY; .env.local already exists with the name in it
-   and you paste the value in on the demo laptop. Model: claude-haiku-4-5-20251001,
-   max_tokens 100. Do not guess a model string.
-
-   Send ONLY titles, never note bodies — and say so in the demo, because "does it
-   read my notes" is the first question anyone asks. On failure, fall back to a
-   canned line. Never show an error. Test it with the key absent: the fallback
-   line is what the audience sees if the venue wifi drops.
+4. Dialogue is a HARDCODED LINE, not a model call — there is no AI here and no
+   API route. Keep a small id -> string map inside game/npc.ts, at least one
+   line per NPC, in-world village flavour, e.g. "Heard you've been buried in
+   your notes again." Look the line up by npcId and put it straight in the
+   emit above. No network call, no key, nothing that can fail on venue wifi.
 
 There is no step 5. Do not skin the title screen, the dialogue box or the vault
 picker with the UI pack — Track C owns the one panel that gets styled today.
 Plain, legible HTML is the correct finish for everything you own.
 
-CUT ORDER IF LATE: drop 2. Keep 1, 3 and 4 — the NPC line is the cheapest "wow"
-in the build and it is the last beat of the demo.
+CUT ORDER IF LATE: drop 2. Keep 1, 3 and 4 — three NPCs with a hardcoded line
+each is minutes of work and it is the last beat of the demo.
 
 DONE WHEN: main runs on the demo laptop, your character walks around in a colour
-you picked, and an NPC says something recognisably about your own notes. Push to
-track-d.
+you picked, and at least three NPCs each say their own hardcoded line when you
+talk to them. Push to track-d.
 ```
 
 ---
@@ -560,6 +549,14 @@ treat it as unreachable on the day.
 
 **D — full UI skin.** The UI pack's panels and buttons on the dialogue box, vault picker and
 title screen, so it reads as one game rather than a web app with a canvas in it.
+
+**D — AI-generated NPC dialogue.** Cut on the 19th as too much live-demo risk for beat 6: an
+`app/api/npc/route.ts` calling `@anthropic-ai/sdk` (`claude-haiku-4-5-20251001`, max_tokens 100)
+with up to 12 real note titles plus the region name, returning a line that references what the
+person has actually been writing about, with a canned-line fallback on any failure. Needs
+`@anthropic-ai/sdk` added to package.json (not installed by Prompt 0 today) and an API key
+pasted into `.env.local` on the demo laptop. Treat as unreachable unless handed out very early —
+it needs a working route, a key, and live wifi, none of which get tested before the merge.
 
 ---
 
