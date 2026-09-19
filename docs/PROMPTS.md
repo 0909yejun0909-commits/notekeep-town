@@ -155,8 +155,8 @@ survive a reload.
            game/scenes/TitleScene.ts, app/api/npc/route.ts
 
   NOBODY   package.json, game/config.ts, game/bus.ts, app/page.tsx,
-           app/layout.tsx
-           These five are written by the foundation commit and are FROZEN.
+           app/layout.tsx, components/PhaserCanvas.tsx
+           These six are written by the foundation commit and are FROZEN.
            They already import and mount every component and wire every
            event. If you think you need to edit one, you have misread your
            prompt — the hook you want is already there.
@@ -251,9 +251,11 @@ even though every component is still a stub:
     Track A's useVault() hook has a provider without editing this file
   - a full-viewport dark page with a centred "Open your vault" button that calls
     openVault() from lib/vault/open.ts, plus a "Try the demo town" button
-  - the Phaser canvas in a client component, dynamically imported with
-    ssr: false
-  - <CharacterCreator /> rendered over the canvas, shown until the vault opens
+  - the Phaser canvas in components/PhaserCanvas.tsx (a new frozen file — add
+    it to the NOBODY list in CLAUDE.md alongside the other five), dynamically
+    imported into page.tsx with ssr: false
+  - <CharacterCreator visible={!vault} /> rendered over the canvas — visible is
+    the only prop it takes, true until the vault opens, then false
   - <NoteReader note={openNote} /> rendered over the canvas, mounted when a
     bus 'open-note' arrives and unmounted on 'close-note'
   - a bus listener for 'talk-npc' that renders a dialogue <div> — plain markup
@@ -479,8 +481,10 @@ re-check it after every merge.
    frame. HARDCODE shoes, pants and hair to one look you choose. The ONLY thing
    the user changes is the shirt colour: six of the eight shirt files, as six
    swatches. Persist to localStorage inside try/catch. CharacterCreator.tsx is
-   ALREADY MOUNTED by app/page.tsx over the canvas — fill in the stub, with a
-   live animated preview. Do not wire it up and do not edit app/page.tsx.
+   ALREADY MOUNTED by app/page.tsx as <CharacterCreator visible={...} /> —
+   visible is the only prop it takes, true until the vault opens. Fill in the
+   stub against that signature, with a live animated preview. Do not wire it
+   up and do not edit app/page.tsx.
 
    Do NOT build a per-layer customiser. No hair-style picker, no shoe or trouser
    options, no palette tinting, nothing that multiplies out to thousands of

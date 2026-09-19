@@ -41,9 +41,9 @@ While it runs, watch for three things and interrupt for nothing else:
 - [ ] `package.json` says `phaser@^3.90.0`, not `^4`, and lists `@anthropic-ai/sdk`
 - [ ] `CLAUDE.md` at the repo root, with the asset manifest appended
 - [ ] all four scenes registered in `game/config.ts`
-- [ ] `game/bus.ts` exists, and `app/page.tsx` mounts `NoteReader` **and**
-      `CharacterCreator` — if it doesn't, three tracks have nowhere to render and
-      you won't find out until the merge
+- [ ] `game/bus.ts` and `components/PhaserCanvas.tsx` exist, and `app/page.tsx`
+      mounts `NoteReader` **and** `CharacterCreator` — if it doesn't, three
+      tracks have nowhere to render and you won't find out until the merge
 
 ---
 
