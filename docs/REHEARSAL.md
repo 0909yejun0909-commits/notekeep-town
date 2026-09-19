@@ -281,9 +281,9 @@ exactly this, and nothing else:
 | A | nothing — it is the critical path |
 | B | house name labels |
 | C | step 4, the panel styling |
-| D | step 2, the shirt colours |
+| D | nothing in step 2 — drop to one NPC in step 3 instead |
 
-**Never cut D's steps 3–4.** The NPC line is beat 6, the last thing the judges see.
+**Never cut D's steps 3–4 entirely.** The NPC line is beat 6, the last thing the judges see.
 
 ---
 

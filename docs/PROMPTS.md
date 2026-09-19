@@ -471,26 +471,26 @@ re-check it after every merge.
    the demo. Then bundle the demo vault as static JSON in /public so there is a
    "Try the demo town" path that works even if the directory picker fails.
 
-2. Character colour — ONE fixed outfit, ONE thing the user picks.
-   base.png is an unclothed body, so you do need a Phaser container compositing
-   base + shoes + pants + shirt + hair. Every layer shares the base's grid and
-   frame indices, so they animate together for free — set them all to the same
-   frame. HARDCODE shoes, pants and hair to one look you choose. The ONLY thing
-   the user changes is the shirt colour: six of the eight shirt files, as six
-   swatches. Persist to localStorage inside try/catch. CharacterCreator.tsx is
-   ALREADY MOUNTED by app/page.tsx as <CharacterCreator visible={...} /> —
-   visible is the only prop it takes, true until the vault opens. Fill in the
-   stub against that signature, with a live animated preview. Do not wire it
-   up and do not edit app/page.tsx.
+2. Character — ONE fixed outfit, nothing the user picks. base.png is an
+   unclothed body, so you do need a Phaser container compositing base + shoes +
+   pants + shirt + hair. Every layer shares the base's grid and frame indices,
+   so they animate together for free — set them all to the same frame.
+   HARDCODE shoes, pants, shirt and hair to one look you choose — there is no
+   colour picker and no swatch UI at all. CharacterCreator.tsx is ALREADY
+   MOUNTED by app/page.tsx as <CharacterCreator visible={...} /> — visible is
+   the only prop it takes, true until the vault opens. Fill in the stub against
+   that signature: a live animated preview of the fixed outfit and nothing to
+   interact with beyond however the user proceeds past it. Do not wire it up
+   and do not edit app/page.tsx.
 
-   Do NOT build a per-layer customiser. No hair-style picker, no shoe or trouser
-   options, no palette tinting, nothing that multiplies out to thousands of
-   combinations. The manifest lists 15,360 of them; you are shipping six. This
-   feature appears in none of the six demo beats and gets one texture swap.
+   Do NOT build a customiser of any kind — no shirt colour, no hair style, no
+   shoe or trouser options, no palette tinting. The manifest lists 15,360
+   combinations; you are shipping one. This feature appears in none of the six
+   demo beats.
 
 3. NPCs in game/npc.ts. Export spawnNpcs(scene, region) — OverworldScene already
    calls it and you may not edit that file, so everything you do happens inside
-   this one function. Spawn AT LEAST THREE NPCs that wander the grid with a
+   this one function. Spawn EXACTLY TWO NPCs that wander the grid with a
    random walk respecting the same collision predicate. Give each NPC a fixed
    id (e.g. 'farmer_bob'). Walk up to one, press Space, and call
    bus.emit('talk-npc', { npcId, line }) — app/page.tsx already listens and
@@ -507,12 +507,13 @@ There is no step 5. Do not skin the title screen, the dialogue box or the vault
 picker with the UI pack — Track C owns the one panel that gets styled today.
 Plain, legible HTML is the correct finish for everything you own.
 
-CUT ORDER IF LATE: drop 2. Keep 1, 3 and 4 — three NPCs with a hardcoded line
-each is minutes of work and it is the last beat of the demo.
+CUT ORDER IF LATE: there is nothing left to cut in 2 — it's one texture, not a
+picker. If you are behind at 0:40, ship 1 and 2 and drop to one NPC in 3, with 4
+covering just that one.
 
-DONE WHEN: main runs on the demo laptop, your character walks around in a colour
-you picked, and at least three NPCs each say their own hardcoded line when you
-talk to them. Push to track-d.
+DONE WHEN: main runs on the demo laptop, your character walks around in its
+fixed outfit, and both NPCs each say their own hardcoded line when you talk to
+them. Push to track-d.
 ```
 
 ---
@@ -544,8 +545,8 @@ walking through switches rooms *within the same scene* — never a scene per roo
 
 **D — the real character customiser.** Per-layer pickers over all of it: 6 hair styles x 5
 hair colours x 8 shoes x 8 pants x 8 shirts, the full 15,360 in `ASSETS.md`. The shipped
-build hardcodes everything but the shirt. This is the largest single item on the list;
-treat it as unreachable on the day.
+build hardcodes all of it to one fixed outfit — not even a shirt colour. This is the
+largest single item on the list; treat it as unreachable on the day.
 
 **D — full UI skin.** The UI pack's panels and buttons on the dialogue box, vault picker and
 title screen, so it reads as one game rather than a web app with a canvas in it.
